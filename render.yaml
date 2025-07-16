@@ -1,0 +1,45 @@
+services:
+  - type: web
+    name: symfony-app
+    env: php
+    runtime: php-8.3
+    buildCommand: |
+      composer install --no-dev --optimize-autoloader
+      php bin/console cache:warmup --env=prod
+      mkdir -p var/cache var/log
+      chmod -R 775 var
+    startCommand: heroku-php-apache2 public/
+    envVars:
+      # Configuration de base
+      - key: APP_ENV
+        value: prod
+      - key: APP_DEBUG
+        value: "0"
+      - key: APP_SECRET
+        value: "4d66cfcca4b7406963c7935b48053aa9"  # En production, mieux vaut utiliser generateValue: true
+      
+      # Base de données - À CONFIGURER DANS LE DASHBOARD RENDER
+      - key: DATABASE_URL
+        sync: false  # Configurez la vraie valeur dans l'interface Render
+      
+      # Mailer - À CONFIGURER DANS LE DASHBOARD RENDER
+      - key: MAILER_DSN
+        sync: false  # Ne pas mettre les identifiants ici!
+      
+      # Stripe - À CONFIGURER DANS LE DASHBOARD RENDER
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_PUBLIC_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: STRIPE_PRICE_ID_BASIQUE
+        sync: false
+      - key: STRIPE_PRICE_ID_PREMIUM
+        sync: false
+      
+      # Autres variables
+      - key: MESSENGER_TRANSPORT_DSN
+        value: "doctrine://default?auto_setup=0"
+      - key: LOCK_DSN
+        value: "flock"
