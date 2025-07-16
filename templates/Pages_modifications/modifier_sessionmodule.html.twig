@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier l'Association | Formatech</title>
+    <link rel="stylesheet" href="{{ asset('css/modification.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+
+<body class="corps">
+    {% block body %}
+        {% include 'haut_de_page/haut_de_page.html.twig' %}
+        
+        <main class="conteneur espacement-vertical">
+            <div class="carte">
+                <div class="en-tete-carte">
+                    <h1 class="titre-2 mb-0">
+                        <i class="icone material-icons-round">link</i>
+                        Modifier l'Association Module-Session
+                    </h1>
+                </div>
+                
+                <div class="corps-carte">
+                    {% for message in app.flashes('success') %}
+                        <div class="message-success">
+                            <i class="icone material-icons-round">check_circle</i>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    
+                    {% for message in app.flashes('error') %}
+                        <div class="message-error">
+                            <i class="icone material-icons-round">error</i>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    
+                    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                        <div class="grille">
+                            <div class="colonne-md-6">
+                                <div class="groupe-formulaire">
+                                    {{ form_label(form.module, null, {
+                                        'label_attr': {'class': 'libelle-formulaire'}
+                                    }) }}
+                                    {{ form_widget(form.module, {
+                                        'attr': {'class': 'controle-formulaire'}
+                                    }) }}
+                                    <div class="message-invalide">
+                                        {{ form_errors(form.module) }}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="colonne-md-6">
+                                <div class="groupe-formulaire">
+                                    {{ form_label(form.session, null, {
+                                        'label_attr': {'class': 'libelle-formulaire'}
+                                    }) }}
+                                    {{ form_widget(form.session, {
+                                        'attr': {'class': 'controle-formulaire'}
+                                    }) }}
+                                    <div class="message-invalide">
+                                        {{ form_errors(form.session) }}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="colonne-md-6">
+                                <div class="groupe-formulaire">
+                                    {{ form_label(form.institution, null, {
+                                        'label_attr': {'class': 'libelle-formulaire'}
+                                    }) }}
+                                    {{ form_widget(form.institution, {
+                                        'attr': {'class': 'controle-formulaire'}
+                                    }) }}
+                                    <div class="message-invalide">
+                                        {{ form_errors(form.institution) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-justifie-fin espacement-haut">
+                            <a href="{{ path('app_Session_Module') }}" class="bouton bouton-secondaire">
+                                <i class="icone material-icons-round">arrow_back</i>
+                                Annuler
+                            </a>
+                            <button type="submit" class="bouton bouton-primaire">
+                                <i class="icone material-icons-round">save</i>
+                                Mettre à jour
+                            </button>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </main>
+    {% endblock %}
+</body>
+</html>

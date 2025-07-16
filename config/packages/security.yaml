@@ -1,0 +1,50 @@
+security:
+  password_hashers:
+    App\Entity\Utilisateur: 'auto'
+
+  providers:
+    database_provider:
+      entity:
+        class: App\Entity\Utilisateur
+        property: courriel
+
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+     
+    main:
+      lazy: true
+      provider: database_provider
+      custom_authenticator: App\Security\Authentification
+      entry_point: App\Security\Authentification
+      
+      logout:
+        path: app_deconnexion
+        target: app_connexion
+
+      remember_me:
+        secret: "%kernel.secret%"
+        lifetime: 604800
+        path: /
+
+  access_control:
+    # Permettre l'accès à la page de connexion
+    - { path: ^/connexion, roles: PUBLIC_ACCESS }
+    - { path: ^/register, roles: PUBLIC_ACCESS }
+    - { path: ^/, roles: PUBLIC_ACCESS }
+
+    # pages principaux 
+    - { path: ^/infoinstitution, roles: [ROLE_USER] }
+    - { path: ^/infosessionmodule, roles: [ROLE_USER] }
+    - { path: ^/calendrier, roles: [ROLE_USER] }
+
+
+    - { path: ^/utilisateur, roles: [ROLE_ADMIN, ROLE_ENSEIGNANT]} 
+    - { path: ^/module, roles: [ROLE_ADMIN, ROLE_ENSEIGNANT]} 
+    - { path: ^/session, roles: [ROLE_ADMIN, ROLE_ENSEIGNANT]} 
+    - { path: ^/institution, roles: [ROLE_ADMIN, ROLE_ENSEIGNANT]} 
+    - { path: ^/sessionmodule, roles: [ROLE_ADMIN, ROLE_ENSEIGNANT]}
+    - { path: ^/page/paiement, roles: [ROLE_ADMIN, ROLE_ENSEIGNANT]}
+    - { path: ^/session/paiement, roles: [ROLE_ADMIN, ROLE_ENSEIGNANT]}
+    - { path: ^/payement/reussite, roles: [ROLE_ADMIN, ROLE_ENSEIGNANT]}  

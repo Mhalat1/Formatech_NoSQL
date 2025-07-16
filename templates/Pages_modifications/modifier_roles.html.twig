@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier {{ utilisateur.prenom }} {{ utilisateur.nom }} | Formatech</title>
+    <link rel="stylesheet" href="{{ asset('css/modification.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+<body class="corps">
+    {% block body %}
+        {% include 'haut_de_page/haut_de_page.html.twig' %}
+        
+        <main class="conteneur espacement-vertical">
+            <div class="carte">
+                <div class="en-tete-carte">
+                    <h1 class="titre-2 mb-0">
+                        <i class="icone material-icons-round">person</i>
+                        Modifier {{ utilisateur.prenom }} {{ utilisateur.nom }}
+                    </h1>
+                </div>
+                
+                <div class="corps-carte">
+                    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                        <div class="grille">
+                            <div class="colonne-md-6">
+                                <div class="groupe-formulaire">
+                                    {{ form_label(form.roles, null, {
+                                        'label_attr': {'class': 'libelle-formulaire mb-2'}
+                                    }) }}
+                                    <div class="conteneur-roles">
+                                        {% for role in form.roles %}
+                                            <div class="option-role">
+                                                {{ form_widget(role, {
+                                                    'attr': {'class': 'case-cocher'}
+                                                }) }}
+                                                {{ form_label(role, null, {
+                                                    'label_attr': {'class': 'libelle-case-cocher'}
+                                                }) }}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="message-invalide">
+                                        {{ form_errors(form.roles) }}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="colonne-md-6">
+                                <div class="groupe-formulaire">
+                                    {{ form_label(form.courriel, null, {
+                                        'label_attr': {'class': 'libelle-formulaire'}
+                                    }) }}
+                                    {{ form_widget(form.courriel, {
+                                        'attr': {'class': 'controle-formulaire'}
+                                    }) }}
+                                    <div class="message-invalide">
+                                        {{ form_errors(form.courriel) }}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="colonne-md-6">
+                                <div class="groupe-formulaire">
+                                    {{ form_label(form.telephone, null, {
+                                        'label_attr': {'class': 'libelle-formulaire'}
+                                    }) }}
+                                    {{ form_widget(form.telephone, {
+                                        'attr': {'class': 'controle-formulaire'}
+                                    }) }}
+                                    <div class="message-invalide">
+                                        {{ form_errors(form.telephone) }}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="colonne-md-6">
+                                <div class="groupe-formulaire">
+                                    {{ form_label(form.dateNaissance, null, {
+                                        'label_attr': {'class': 'libelle-formulaire'}
+                                    }) }}
+                                    {{ form_widget(form.dateNaissance, {
+                                        'attr': {'class': 'controle-formulaire'}
+                                    }) }}
+                                    <div class="message-invalide">
+                                        {{ form_errors(form.dateNaissance) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-justifie-fin espacement-haut">
+                            <a href="{{ path('app_Session_Module') }}" class="bouton bouton-secondaire">
+                                <i class="icone material-icons-round">arrow_back</i>
+                                Annuler
+                            </a>
+                            <button type="submit" class="bouton bouton-primaire">
+                                <i class="icone material-icons-round">save</i>
+                                Mettre à jour
+                            </button>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </main>
+    {% endblock %}
+</body>
+
+<style>
+.conteneur-roles {
+    background-color: var(--couleur-fond);
+    padding: 1rem;
+    border-radius: 6px;
+    border: 1px solid var(--couleur-bordure);
+}
+
+.option-role {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.case-cocher {
+    margin-right: 1rem;
+    width: 1rem;
+    height: 1rem;
+}
+
+.libelle-case-cocher {
+    font-weight: 500;
+    cursor: pointer;
+}
+</style>
+
+</html>

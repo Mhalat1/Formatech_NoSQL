@@ -1,0 +1,66 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('css/haut_de_pages.css') }}">
+
+<header class="entete-tableau-de-bord">
+    <div class="contenu-entete">
+        <a href="{{ path('app_accueil') }}" class="btn-nav-accueil">
+            <i class="fas fa-home"></i>
+        </a>
+        <div class="section-marque">
+            <h1 class="titre-app">FormaTech</h1>
+            <div class="statut-utilisateur">
+                {% if app.user %}
+                <span class="msg-bienvenue">Connecté en tant que <strong>{{ app.user.userIdentifier }}</strong></span>
+                {% endif %}
+            </div>
+        </div>
+        
+        <nav class="nav-principal">
+            <a href="{{ path('app_deconnexion') }}" class="bouton-nav deconnexion">
+                Deconnexion
+            </a>
+        </nav>
+    </div>
+</header>
+
+<!-- carrees de Navigation -->
+<div class="carrees-nav">
+    <a href="/infoinstitution" class="carree-nav">
+        <div class="icone-carree">
+            <i class="material-icons-round">business</i>
+        </div>
+        <h3>Utilisateur</h3>
+        <p>Voir et gérer toutes les institutions</p>
+    </a>
+    
+    <a href="/infosessionmodule" class="carree-nav">
+        <div class="icone-carree">
+            <i class="material-icons-round">event_note</i>
+        </div>
+        <h3>Modules</h3>
+        <p>Gérer le calendrier et les formations</p>
+    </a>
+    
+    <a href="/calendrier" class="carree-nav">
+        <div class="icone-carree">
+            <i class="material-icons-round">event_note</i>
+        </div>
+        <h3>Emploi du temps</h3>
+        <p>Gérer le calendrier et les formations</p>
+    </a>
+</div>
+
+<!-- Notifications -->
+{% for message in app.flashes('success') %}
+<div class="alerte succes">
+    <i class="material-icons-round">check_circle</i>
+    <div class="contenu-alerte">{{ message }}</div>
+</div>
+{% endfor %}
+{% for message in app.flashes('error') %}
+<div class="alerte erreur">
+    <i class="material-icons-round">error</i>
+    <div class="contenu-alerte">{{ message }}</div>
+</div>
+{% endfor %}

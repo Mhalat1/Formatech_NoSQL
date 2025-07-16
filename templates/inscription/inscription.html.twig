@@ -1,0 +1,194 @@
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ asset('css/inscription.css') }}">
+    <title>Inscription</title>
+</head>
+
+<body>
+    <div class="zone-bleue">
+                    <div class="navigation-entete">
+                        <a href="{{ path('app_accueil') }}" class="bouton-accueil">
+                            Retour à l'accueil
+                        </a>
+                    </div> </br>
+        <div class="contenu-zone-bleue">
+            <h1>Rejoignez notre plateforme</h1>
+            <p>Créez votre compte en quelques minutes et bénéficiez de tous nos services de gestion professionnelle.</p>
+        </div>
+    </div>
+    
+    <div class="conteneur-formulaire">
+        {% block body %}
+            <div class="conteneur">
+                {{ form_start(formulaireInscription, {'attr': {'class': 'conteneur-formulaire'}}) }}
+
+                <div class="conteneur-formulaire">
+                    {% if invitation %}
+                    <div class="notification-invitation">
+                        <h3 class="police-gras">Invitation à rejoindre une institution</h3>
+                        <div class="info-institution">
+                            <p class="police-gras">nom : {{ invitation.institution.nom }}</p>
+                            <p>adresse : {{ invitation.institution.adresse }}</p>
+                            <p>Téléphone: {{ invitation.institution.telephone }}</p>
+                            <p>Email: {{ invitation.institution.courriel }}</p>
+                        </div>
+                        <input type="hidden" name="invitation_token" value="{{ invitation.token }}">
+                    </div>
+                    {% endif %}
+
+                    <div class="section">
+                        <div class="entete-section">
+                            <h2 class="titre-section">Informations de l'institution</h2>
+                        </div>
+                        
+                        {% if not invitation %}
+                        <div class="grille-champs">
+                            <div class="groupe-formulaire">
+                                {{ form_label(formulaireInscription.institutionNom) }}
+                                {{ form_widget(formulaireInscription.institutionNom, {'attr': {'class': 'controle-formulaire'}}) }}
+                                {{ form_errors(formulaireInscription.institutionNom) }}
+                            </div>
+                            <div class="groupe-formulaire">
+                                {{ form_label(formulaireInscription.institutionCourriel) }}
+                                {{ form_widget(formulaireInscription.institutionCourriel, {'attr': {'class': 'controle-formulaire'}}) }}
+                                {{ form_errors(formulaireInscription.institutionCourriel) }}
+                            </div>
+                        </div>
+                        <div class="groupe-formulaire">
+                            {{ form_label(formulaireInscription.institutionAdresse) }}
+                            {{ form_widget(formulaireInscription.institutionAdresse, {'attr': {'class': 'controle-formulaire'}}) }}
+                            {{ form_errors(formulaireInscription.institutionAdresse) }}
+                        </div>
+                        <div class="groupe-formulaire">
+                            {{ form_label(formulaireInscription.institutionTelephone) }}
+                            {{ form_widget(formulaireInscription.institutionTelephone, {'attr': {'class': 'controle-formulaire'}}) }}
+                            {{ form_errors(formulaireInscription.institutionTelephone) }}
+                        </div>
+                        {% else %}
+                        <div class="zone-info-institution">
+                            <p>Les informations de l'institution sont pré-remplies selon votre invitation.</p>
+                            <div class="grille-info">
+                                <div class="element-info">
+                                    <label>Nom de l'institution</label>
+                                    <div>{{ invitation.institution.nom }}</div>
+                                </div>
+                                <div class="element-info">
+                                    <label>Adresse</label>
+                                    <div>{{ invitation.institution.adresse }}</div>
+                                </div>
+                                <div class="element-info">
+                                    <label>Téléphone</label>
+                                    <div>{{ invitation.institution.telephone }}</div>
+                                </div>
+                                <div class="element-info">
+                                    <label>Email</label>
+                                    <div>{{ invitation.institution.courriel }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="section">
+                        <div class="entete-section">
+                            <h2 class="titre-section">Informations personnelles</h2>
+                        </div>
+                        <div class="grille-champs">
+                            <div class="groupe-formulaire">
+                                {{ form_label(formulaireInscription.prenom) }}
+                                {{ form_widget(formulaireInscription.prenom, {'attr': {'class': 'controle-formulaire'}}) }}
+                                {{ form_errors(formulaireInscription.prenom) }}
+                            </div>
+                            <div class="groupe-formulaire">
+                                {{ form_label(formulaireInscription.nom) }}
+                                {{ form_widget(formulaireInscription.nom, {'attr': {'class': 'controle-formulaire'}}) }}
+                                {{ form_errors(formulaireInscription.nom) }}
+                            </div>
+                        </div>
+                        <div class="grille-champs">
+                            <div class="groupe-formulaire">
+                                {{ form_label(formulaireInscription.courriel) }}
+                                {{ form_widget(formulaireInscription.courriel, {
+                                    'attr': {
+                                        'class': 'controle-formulaire',
+                                        'value': invitation ? invitation.email : ''
+                                    }
+                                }) }}
+                                {{ form_errors(formulaireInscription.courriel) }}
+                            </div>
+                            <div class="groupe-formulaire">
+                                {{ form_label(formulaireInscription.telephone) }}
+                                {{ form_widget(formulaireInscription.telephone, {'attr': {'class': 'controle-formulaire'}}) }}
+                                {{ form_errors(formulaireInscription.telephone) }}
+                            </div>
+                        </div>
+                        
+                        <div class="groupe-formulaire">
+                            {{ form_label(formulaireInscription.dateNaissance) }}
+                            {{ form_widget(formulaireInscription.dateNaissance, {'attr': {'class': 'controle-formulaire'}}) }}
+                            {{ form_errors(formulaireInscription.dateNaissance) }}
+                        </div>
+                        
+                        <div class="groupe-formulaire">
+                            {{ form_label(formulaireInscription.motdepasse) }}
+                            {{ form_widget(formulaireInscription.motdepasse, {'attr': {'class': 'controle-formulaire'}}) }}
+                            {{ form_errors(formulaireInscription.motdepasse) }}
+                        </div>
+<div class="conditions-acceptation">
+    <label class="checkbox-simple">
+        {{ form_widget(formulaireInscription.agreeTerms, {
+            'attr': {'class': 'checkbox-simple-input'}
+        }) }}
+        <span class="checkbox-simple-text">
+            J'accepte les <a href="#conditions-utilisation" class="lien-conditions">conditions d'utilisation</a>
+        </span>
+    </label>
+    {{ form_errors(formulaireInscription.agreeTerms) }}
+</div>
+
+<!-- Modale intégrée dans la page -->
+<div id="conditions-utilisation" class="modale-conditions">
+    <div class="modale-contenu">
+        <h3>Conditions d'utilisation</h3>
+        <div class="modale-texte">
+            {# Insérez ici votre contenu #}
+            <p><strong>1. Anonymisation sur demande </strong><br>
+            Vous pouvez demander à anonymiser vos informations personnelles à tout moment via le formulaire de contact en bas de la page d'accueil</p>
+            <p><strong>2. Anonymisation automatique </strong><br>
+            Toutes les données privée seront supprimé au bout de 5ans après la date de création du compte
+            Ou lors de la suppresion d'une instituiton tout les utilisateurs qui y sont liés sont supprimés également
+            <p><strong>3. Confidentialité</strong><br>
+            Vos données sont traitées conformément à notre politique </br>
+            Les données collectées sont les suivant  </br>
+            1/ institution de reference 2/ nom 3/ prenom 4/ courriel 5/date_naissance</br>
+            6/telephone 7/votre mot de passe est hashé de manièere à le rendre illisible par un tier
+
+            </p>
+        </div>
+        <a href="#" class="modale-fermer">Fermer</a>
+    </div>
+</div>
+                        <div class="zone-soumission">
+                            {{ form_widget(formulaireInscription.inscrire, {'attr': {'label': 'Créer mon compte'}}) }}
+                        </div>
+                    </div>
+                </div>
+
+                {# Rendre individuellement les champs cachés #}
+                {% if invitation %}
+                    {{ form_widget(formulaireInscription.institutionNom, {'attr': {'style': 'display: none;'}}) }}
+                    {{ form_widget(formulaireInscription.institutionAdresse, {'attr': {'style': 'display: none;'}}) }}
+                    {{ form_widget(formulaireInscription.institutionTelephone, {'attr': {'style': 'display: none;'}}) }}
+                    {{ form_widget(formulaireInscription.institutionCourriel, {'attr': {'style': 'display: none;'}}) }}
+                {% endif %}
+                
+                {{ form_rest(formulaireInscription, {'render': false}) }}
+
+                {{ form_end(formulaireInscription) }}
+            </div>
+        {% endblock %}
+    </div>
+</body>
+</html>

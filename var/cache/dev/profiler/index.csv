@@ -1,0 +1,10 @@
+49e563,172.19.0.1,GET,http://localhost:8090/,1752509566,d4e5bb,500,request
+d4e5bb,172.19.0.1,GET,http://localhost:8090/,1752509567,,500,request
+9f4e30,172.19.0.1,GET,http://localhost:8090/,1752510835,3eddc1,500,request
+def7e5,172.19.0.1,GET,http://localhost:8090/,1752510835,56faed,500,request
+56faed,172.19.0.1,GET,http://localhost:8090/,1752510836,,500,request
+3eddc1,172.19.0.1,GET,http://localhost:8090/,1752510836,,500,request
+1fa5b5,172.19.0.1,GET,http://localhost:8090/connexion,1752510901,,200,request
+9ab320,172.19.0.1,GET,http://localhost:8090/inscription,1752511044,,200,request
+f6c537,172.19.0.1,GET,http://localhost:8090/inscription,1752511121,4554cc,500,request
+4554cc,172.19.0.1,POST,http://localhost:8090/inscription,1752511121,,500,request

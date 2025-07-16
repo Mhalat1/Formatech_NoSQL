@@ -1,0 +1,330 @@
+
+        /* Styles de base améliorés */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            min-height: 100vh;
+            background-color: #f8f9fa;
+        }
+        
+        /* Zone bleue avec le format d'inscription */
+        .zone-bleue {
+            background: linear-gradient(135deg, #0066cc 0%, #004080 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        
+        .contenu-zone-bleue {
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .contenu-zone-bleue h1 {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+        
+        .contenu-zone-bleue p {
+            font-size: 18px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        /* Conteneur du formulaire */
+        .conteneur-formulaire {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .conteneur {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+                padding: 0% 5%;
+        }
+        
+        /* En-tête */
+        .entete {
+            padding: 25px;
+            border-bottom: 1px solid #eee;
+            position: relative;
+        }
+        
+        .navigation-entete {
+            margin-bottom: 25px;
+        }
+        
+        .bouton-accueil {
+            font-weight: bold;
+            font-size: 20px;
+            align-items: center;
+            gap: 8px;
+            color: #ffffff;
+            text-decoration: none;
+          background-color: #ffffff;
+          color:black;
+          padding: 8px 12px;
+          border-radius: 6px;
+        }
+        
+        .bouton-accueil:hover {
+          background-color: #0066cc ;
+
+            color: #ffffff;
+        }
+        
+        .contenu-entete h1 {
+            margin: 0;
+            color: #333;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .contenu-entete p {
+            margin: 8px 0 0;
+            color: #666;
+            font-size: 15px;
+        }
+        
+        /* Notification d'invitation */
+        .notification-invitation {
+            background-color: #f0f7ff;
+            border-left: 4px solid #0066cc;
+            padding: 18px;
+            margin: 0 25px 25px;
+            border-radius: 6px;
+        }
+        
+        .notification-invitation h3 {
+            color: #004080;
+            margin-top: 0;
+            font-size: 17px;
+        }
+        
+        .info-institution {
+            margin-top: 12px;
+        }
+        
+        .info-institution p {
+            margin: 6px 0;
+            font-size: 14px;
+        }
+        
+        .police-gras {
+            font-weight: bold;
+        }
+        
+        /* Sections du formulaire */
+        .section {
+            padding: 25px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .entete-section {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .numero-section {
+            background-color: #0066cc;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 12px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .titre-section {
+            margin: 0;
+            color: #333;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        /* Grille améliorée pour les champs */
+        .grille-champs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        /* Groupes de formulaire */
+        .groupe-formulaire {
+            margin-bottom: 18px;
+        }
+        
+        .groupe-formulaire label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #444;
+            font-size: 14px;
+        }
+        
+        .controle-formulaire {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 15px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+        
+        .controle-formulaire:focus {
+            border-color: #0066cc;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0,102,204,0.1);
+        }
+        
+        /* Checkbox conditions */
+        .conditions-acceptation {
+            display: flex;
+            align-items: flex-start;
+            margin: 25px 0;
+        }
+        
+        .conditions-acceptation input {
+            margin-top: 3px;
+        }
+        
+        .conditions-acceptation label {
+            margin-left: 12px;
+            font-weight: normal;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        /* Bouton de soumission */
+        .zone-soumission {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .zone-soumission button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .zone-soumission button:hover {
+            background-color: #0052a3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,102,204,0.2);
+        }
+        
+        /* Zone d'information institution (pour invitation) */
+        .zone-info-institution {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 0 25px 25px;
+        }
+        
+        .zone-info-institution p {
+            color: #666;
+            margin: 0 0 12px;
+            font-size: 15px;
+        }
+        
+        .grille-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-top: 18px;
+        }
+        
+        .element-info label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #444;
+            margin-bottom: 6px;
+        }
+        
+        .element-info div {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+
+        /*   partie validation des condition d'usage    */
+
+.lien-conditions {
+  color: #0066cc;
+  text-decoration: underline;
+}
+
+/* Modale basique */
+.modale-conditions {
+  display: none;
+
+}
+
+.modale-contenu {
+  background: white;
+  padding: 20px;
+  width: 100%;
+  text-decoration: none;
+}
+/* Cette ligne CSS affiche la modale lorsque son ID est ciblé dans l'URL */
+.modale-conditions:target {
+  display: flex;
+}
+
+.fermer-modale {
+  text-align: center;
+}
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            
+
+            .zone-bleue{
+                height: 400px;
+            }
+            body {
+
+                grid-template-columns: 1fr;
+            }
+                        
+            .conteneur-formulaire {
+                padding: 30px 20px;
+            }
+            
+            .grille-champs {
+                grid-template-columns: 1fr;
+            }
+            
+            .grille-info {
+                grid-template-columns: 1fr;
+            }
+        }

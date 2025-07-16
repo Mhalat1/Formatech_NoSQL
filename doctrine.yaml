@@ -1,0 +1,55 @@
+doctrine:
+    dbal:
+        connections:
+            default:
+                url: '%env(resolve:DATABASE_URL)%'
+                driver: 'pdo_pgsql'
+                server_version: '15'
+                charset: 'UTF8'
+                mapping_types:
+                    enum: string
+                options:
+                    # Configuration SSL obligatoire pour Render
+                    1002: 'SET NAMES UTF8'
+                    PGSQL_ATTR_SSL_MODE: 'require'
+
+        # Optimisation pour les migrations
+        schema_filter: ~^(?!pg_)~
+        types:
+            json: Doctrine\DBAL\Types\JsonType
+
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        auto_mapping: true
+        mappings:
+            App:
+                type: attribute
+                dir: '%kernel.project_dir%/src/Entity'
+                prefix: 'App\Entity'
+                alias: App
+
+        # Optimisation des requêtes
+        dql:
+            string_functions:
+                JSON_EXTRACT: DoctrineExtensions\Query\Postgresql\JsonExtract
+                ILIKE: DoctrineExtensions\Query\Postgresql\IlikeFunction
+
+when@test:
+    doctrine:
+        dbal:
+            dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+            # Réutilisation du schéma pour les tests
+            schema_manager_factory: Doctrine\Bundle\DoctrineBundle\Dbal\RestSqlFilterSchemaManagerFactory
+
+when@prod:
+    doctrine:
+        orm:
+            auto_generate_proxy_classes: false
+            proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
+            query_cache_driver:
+                type: pool
+                pool: doctrine.system_cache_pool
+            result_cache_driver:
+                type: pool
+                pool: doctrine.result_cache_pool

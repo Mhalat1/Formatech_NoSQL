@@ -1,0 +1,59 @@
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ asset('css/connexion.css') }}">
+    <title>Inscription</title>
+</head>
+<body>
+    <div class="conteneur-principal">
+        <div class="section-gauche">
+            <h1 class="titre-principal">Bienvenue</h1>
+            <p class="sous-titre">Connectez-vous à votre compte pour accéder à votre espace personnel</p>
+        </div>
+
+        <div class="section-droite">
+            <div class="formulaire-connexion">
+                <h2 class="titre-formulaire">Connexion</h2>
+
+                {% if erreure %}
+                    <div class="message-erreur">
+                        {{ erreure.messageKey|trans(erreure.messageData, 'security') }}
+                    </div>
+                {% endif %}
+
+                {% if app.user %}
+                    <div class="message-succes">
+                        <div class="texte-utilisateur">
+                            Connecté en tant que <span class="identifiant-utilisateur">{{ app.user.userIdentifier }}</span>
+                        </div>
+                        <a href="{{ path('app_deconnexion') }}" class="lien-deconnexion">Deconnexion</a>
+                    </div>
+                {% endif %}
+
+                <form method="post">
+                    <div class="groupe-champ">
+                        <label for="inputCourriel">Adresse e-mail</label>
+                        <input type="email" value="{{ identifiant }}" name="courriel" id="inputCourriel"
+                               autocomplete="identifiant" required autofocus>
+                    </div>
+
+                    <div class="groupe-champ">
+                        <label for="inputPassword">Mot de passe</label>
+                        <input type="motdepasse" name="motdepasse" id="inputPassword"
+                               autocomplete="motdepasse" required>
+                    </div>
+
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                    <button type="submit" class="bouton-connexion">Se connecter</button>
+                </form>
+
+                <p class="lien-inscription">
+                    Pas encore inscrit(e) ? <a href="{{ path('app_inscription') }}">Créer un compte</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

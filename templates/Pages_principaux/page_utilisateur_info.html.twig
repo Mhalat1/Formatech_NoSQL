@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Gestion des Associations | FormaTech</title>
+		<link rel="stylesheet" href="{{ asset('css/utilisateurinformations.css') }}">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	</head>
+
+	<body class="disposition">
+		{% include 'haut_de_page/haut_de_page.html.twig' %}
+
+		<section class="creations_formulaire">
+			{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+				<h1 class="titre-section-principale">
+					Partie Administration
+				</h1>
+			{% endif %}
+		</section>
+
+		<div class="creations_formulaire">
+			{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+				<div class="conteneur">
+					<div class="en-tete">
+						<h1>
+							Gestionnaire Notes & Commentaires
+						</h1>
+					</div>
+
+					{% set userId = app.request.get('id') %}
+					<section class="section-donnees">
+						{% if is_granted('ROLE_ENSEIGNANT') or is_granted('ROLE_ADMIN') %}
+							<div class="en-tete-section">
+								<h3 class="titre-sous-section">
+									<i class="material-icons-round">settings</i>
+									Modifier commentaire générale de l'utilisateur
+								</h3>
+							</div>
+							<div class="boutons-action">
+								<a href="{{ path('utilisateur_modifier', { 'id': utilisateur.id }) }}" class="bouton-action primaire">
+									<i class="material-icons-round">manage_accounts</i>
+									Modifier le Commentaire générale
+								</a>
+							</div>
+						{% endif %}
+
+						<div class="-sen-teteection">
+							<h2 class="titre-section">
+								<i class="material-icons-round">link</i>
+								Détails des notes
+							</h2>
+						</div>
+
+						<div class="conteneur-tableau">
+							<table class="tableau">
+								<thead>
+									<tr class="nom">
+										<th>Institution</th>
+										<th>Session</th>
+										<th>Module</th>
+										<th>Commentaire</th>
+										<th>Note</th>
+										{% if is_granted('ROLE_ADMIN') %}
+											<th class="texte-droite">Actions</th>
+										{% endif %}
+									</tr>
+								</thead>
+								<tbody>
+									{% set hasUserModules = false %}
+									{% for item in utilisateurInstitutionSessionModules %}
+										{% if item.Utilisateur.id == userId %}
+											{% set hasUserModules = true %}
+											<tr class="resultat">
+												<td>{{ item.SessionModule.Institution.nom }}</td>
+												<td>{{ item.SessionModule.Session.nom }}</td>
+												<td>{{ item.SessionModule.Module.nom }}</td>
+												<td class="cellule-commentaire">
+													{% if item.CommentaireModule %}
+														{{ item.CommentaireModule }}
+													{% else %}
+														<span class="aucun-commentaire">Aucun commentaire</span>
+													{% endif %}
+												</td>
+												<td class="cellule-note">
+													{% if item.NoteModule is not null %}
+														{{ item.NoteModule }}/20
+													{% else %}
+														<span class="aucune-note">Non noté</span>
+													{% endif %}
+												</td>
+												{% if is_granted('ROLE_ADMIN') %}
+													<td class="actions">
+														<a href="{{ path('module_commentaire', { 'id': item.id }) }}" class="bouton-icone modifier" title="Modifier">
+															<i class="material-icons-round">edit</i>
+														</a>
+														<form method="POST" action="{{ path('app_Session_Module') }}" class="formulaire-inline">
+															<input type="hidden" name="deleteUtilisateurId" value="{{ item.id }}">
+															<button type="submit" class="bouton-icone supprimer" title="Supprimer">
+																<i class="material-icons-round">delete</i>
+															</button>
+														</form>
+													</td>
+												{% endif %}
+											</tr>
+										{% endif %}
+									{% endfor %}
+
+									{% if not hasUserModules %}
+										<tr>
+											<td colspan="{% if is_granted('ROLE_ADMIN') %}6{% else %}5{% endif %}" class="aucune-donnee">
+												<i class="material-icons-round">info</i>
+												Vous n'êtes associé à aucun module actuellement
+											</td>
+										</tr>
+									{% endif %}
+								</tbody>
+							</table>
+						</div>
+					</section>
+				</div>
+
+				<br>
+
+				<div class="conteneur">
+					<div class="en-tete">
+						<h1>
+							Gestionnaire PDF & MAILER
+						</h1>
+					</div>
+
+					<div class="corps">
+						<div class="section-formulaire section-individuelle">
+							<div class="titre-section">
+								<i class="fas fa-user"></i>
+								Actions pour un utilisateur spécifique
+							</div>
+							<form action="{{ path('app_exporter_pdf', {'id': utilisateur.id}) }}" method="post" onsubmit="return confirm('Envoyer le PDF à l\\'utilisateur ?')">
+								<input type="hidden" name="_token" value="{{ csrf_token('app_exporter_pdf') }}">
+								
+								<button type="submit" name="action" value="telecharger" class="bouton bouton-primaire">
+									<i class="fas fa-telecharger"></i>
+									Télécharger le PDF
+								</button>
+								
+								<button type="submit" name="action" value="email" class="bouton bouton-succes">
+									<i class="fas fa-envelope"></i>
+									Envoyer le PDF par Email
+								</button>
+							</form>
+						</div>
+
+						{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') %}
+							<div class="section-formulaire section-groupe">
+								<div class="titre-section">
+									<i class="fas fa-users"></i>
+									Envoi groupé à tous les utilisateurs
+								</div>
+								<form action="{{ path('envoi_tout_pdfs', {'id': utilisateur.id}) }}" method="post" onsubmit="return confirm('Envoyer les PDFs à tous les utilisateurs ?')">
+									<input type="hidden" name="_token" value="{{ csrf_token('envoi_tout_pdfs') }}">
+
+									<button type="submit" name="action" value="telecharger" class="bouton bouton-primaire">
+										<i class="fas fa-telecharger"></i>
+										Télécharger tous les PDF
+									</button>
+
+									<button type="submit" class="bouton bouton-avertissement bouton-lg mb-3" name="action" value="email">
+										<i class="fas fa-envelope"></i>
+										Envoyer tous les PDF par Email
+									</button>
+								</form>
+							</div>
+						{% endif %}
+
+						<div class="section-formulaire section-session">
+							<div class="titre-section">
+								<i class="fas fa-calendar-alt"></i>
+								Envoi par session
+							</div>
+							<form action="{{ path('envoi_session_pdfs', {'id': utilisateur.id}) }}" method="post" onsubmit="return confirm('Envoyer les PDFs à tous les utilisateurs de la session sélectionnée ?')">
+								<input type="hidden" name="_token" value="{{ csrf_token('envoi_session_pdfs') }}">
+
+								<div class="groupe-formulaire">
+									<label for="session">Choisir une session :</label>
+									<select class="controle-formulaire" id="session" name="session_id" required>
+										<option value="">-- Sélectionnez une session --</option>
+										{% if session_liee is defined and session_liee is not empty %}
+											{% for session in session_liee %}
+												<option value="{{ session.id }}">
+													{{ session.nom }}
+													{% if session.dateDebut and session.dateFin %}
+														({{ session.dateDebut|date('d/m/Y') }} - {{ session.dateFin|date('d/m/Y') }})
+													{% endif %}
+												</option>
+											{% endfor %}
+										{% else %}
+											<option value="" disabled>Aucune session disponible</option>
+										{% endif %}
+									</select>
+								</div>
+
+								<button type="submit" name="action" value="telecharger" class="bouton bouton-primaire">
+									<i class="fas fa-telecharger"></i>
+									Télécharger les PDF de la session
+								</button>
+
+								<button type="submit" class="bouton bouton-succes  " name="action" value="email">
+									<i class="fas fa-envelope"></i>
+									Envoyer les PDF de la session par Email
+								</button>
+							</form>
+						</div>
+					</div>
+
+					{% for type, messages in app.flashes %}
+						{% for message in messages %}
+								{{ message }}
+						{% endfor %}
+					{% endfor %}
+				</div>
+			{% endif %}
+		</div>
+
+		{% if is_granted('ROLE_ETUDIANT') or is_granted('ROLE_ENSEIGNANT') %}
+			<section class="section-profil">
+				<div class="en-tete-section">
+					<h2 class="titre-section">
+						<i class="material-icons-round">person</i>
+						Utilisateur
+					</h2>
+				</div>
+				<div class="grille-profil">
+					<div class="carte-profil">
+						<div class="detail-profil">
+							<span class="etiquette-detail">Nom</span>
+							<span class="valeur-detail">{{ utilisateur.nom }}</span>
+						</div>
+						<div class="detail-profil">
+							<span class="etiquette-detail">Prénom</span>
+							<span class="valeur-detail">{{ utilisateur.prenom }}</span>
+						</div>
+						<div class="detail-profil">
+							<span class="etiquette-detail">Email</span>
+							<span class="valeur-detail">{{ utilisateur.courriel }}</span>
+						</div>
+					</div>
+				</div>
+			</section>
+		{% endif %}
+
+		{% set userId = app.request.get('id') %}
+		<section class="section-profil">
+			<div class="en-tete-section">
+				<h2 class="titre-section">
+					<i class="material-icons-round">link</i>
+					Détails des notes
+				</h2>
+			</div>
+
+			<div class="conteneur-tableau">
+				<table class="tableau">
+					<thead>
+						<tr>
+							<th>Institution</th>
+							<th>Session</th>
+							<th>Module</th>
+							<th>Commentaire</th>
+							<th>Note</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% set hasUserModules = false %}
+						{% for item in utilisateurInstitutionSessionModules %}
+							{% if item.Utilisateur.id == userId %}
+								{% set hasUserModules = true %}
+								<tr>
+									<td>{{ item.SessionModule.Institution.nom }}</td>
+									<td>{{ item.SessionModule.Session.nom }}</td>
+									<td>{{ item.SessionModule.Module.nom }}</td>
+									<td class="cellule-commentaire">
+										{% if item.CommentaireModule %}
+											{{ item.CommentaireModule }}
+										{% else %}
+											<span class="aucun-commentaire">Aucun commentaire</span>
+										{% endif %}
+									</td>
+									<td class="cellule-note">
+										{% if item.NoteModule is not null %}
+											{{ item.NoteModule }}/20
+										{% else %}
+											<span class="aucune-note">Non noté</span>
+										{% endif %}
+									</td>
+								</tr>
+							{% endif %}
+						{% endfor %}
+
+						{% if not hasUserModules %}
+							<tr>
+								<td colspan="5" class="aucune-donnee">
+									<i class="material-icons-round">info</i>
+									Vous n'êtes associé à aucun module actuellement
+								</td>
+							</tr>
+						{% endif %}
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<main class="conteneur-contenu">
+			<div class="ecranPdf">
+				{% set userId = app.request.get('id') %}
+				{% set chartLabels = [] %}
+				{% set chartNotes = [] %}
+
+				{% for item in utilisateurInstitutionSessionModules %}
+					{% if item.Utilisateur.id == userId and item.NoteModule is not null %}
+						{% set chartLabels = chartLabels|merge([item.SessionModule.Module.nom]) %}
+						{% set chartNotes = chartNotes|merge([item.NoteModule]) %}
+					{% endif %}
+				{% endfor %}
+
+				{% if chartNotes|length > 0 %}
+					<section class="section-graphique">
+						<div class="en-tete-section">
+							<h3 class="titre-sous-section">
+								<i class="material-icons-round">bar_chart</i>
+								Notes par module
+							</h3>
+						</div>
+						<div class="conteneur-graphique" style="max-width: 800px; margin: auto;">
+							<canvas id="graphiqueNotes"></canvas>
+						</div>
+
+						<script>
+							const ctx = document.getElementById('graphiqueNotes').getContext('2d');
+							const dateActuelle = new Date().toLocaleDateString('fr-FR');
+
+							const graphique = new Chart(ctx, {
+								type: 'bar',
+								data: {
+									labels: {{ chartLabels|json_encode|raw }},
+									datasets: [{
+										label: 'Note sur 20',
+										data: {{ chartNotes|json_encode|raw }},
+										backgroundColor: 'rgba(54, 162, 235, 0.6)',
+										borderColor: 'rgba(54, 162, 235, 1)',
+										borderWidth: 1
+									}]
+								},
+								options: {
+									responsive: true,
+									plugins: {
+										title: {
+											display: true,
+											text: `Relevé de notes du ${dateActuelle}`,
+											font: {
+												size: 16,
+												weight: 'bold'
+											}
+										}
+									}
+								}
+							});
+						</script>
+					</section>
+				{% endif %}
+			</div>
+		</main>
+	</body>
+</html>

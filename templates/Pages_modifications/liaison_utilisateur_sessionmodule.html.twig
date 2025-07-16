@@ -1,0 +1,69 @@
+<html lang="fr" class="corps">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier le Module Utilisateur | Formatech</title>
+    <link rel="stylesheet" href="{{ asset('css/modification.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/modification.css') }}">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body class="fond-clair">
+    {% block body %}
+        {% include 'haut_de_page/haut_de_page.html.twig' %}
+        
+        <main class="conteneur espacement-vertical">
+            <div class="carte formulaire-institution">
+                <div class="en-tete-carte">
+                    <h1 class="titre-2 espacement-bas-0">
+                        <i class="icone material-icons-round">book</i>
+                        Modifier association entre l'utilisateur et le module 
+                    </h1>
+                </div>
+                
+                <div class="corps-carte">
+                    {% for message in app.flashes('success') %}
+                        <div class="message-success">
+                            <i class="icone material-icons-round">check_circle</i>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                    {{ form_start(form_modif, {'attr': {'novalidate': 'novalidate'}}) }}
+                        <div class="grille">
+                            {% for field in form_modif %}
+                                <div class="colonne">
+                                    <div class="groupe-formulaire">
+                                        {{ form_label(field, null, {
+                                            'label_attr': {'class': 'libelle-formulaire'}
+                                        }) }}
+                                        {{ form_widget(field, {
+                                            'attr': {'class': 'controle-formulaire'}
+                                        }) }}
+                                        <div class="message-invalide">
+                                            {{ form_errors(field) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="flex-justifie-fin espacement-haut">
+                            <a href="{{ path('app_Session_Module') }}" class="bouton bouton-secondaire">
+                                <i class="icone material-icons-round">arrow_back</i>
+                                Annuler
+                            </a>
+                            <button type="submit" class="bouton bouton-primaire">
+                                <i class="icone material-icons-round">save</i>
+                                Mettre à jour
+                            </button>
+                        </div>
+                    {{ form_end(form_modif) }}
+                </div>
+            </div>
+        </main>
+    {% endblock %}
+</body>
+</html>

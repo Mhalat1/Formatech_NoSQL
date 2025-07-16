@@ -1,0 +1,9 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+        
+    type: attribute
+
+#Détection automatique:  Symfony scanne automatiquement tous les fichiers dans src/Controller/#
+#Toute classe dans le namespace App\Controller est considérée comme un contrôleur#

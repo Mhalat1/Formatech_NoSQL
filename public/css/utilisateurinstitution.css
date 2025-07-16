@@ -1,0 +1,210 @@
+:root {
+    /* Couleurs */
+    --primaire: #4361ee;
+    --primaire-clair: #ebf0ff;
+    --primaire-fonce: #3a0ca3;
+    --secondaire: #4895ef;
+    --bleu_claire: #4cc9f0;
+    --orange: #ffbe0b;
+    --rouge: #ef233c;
+    --gris-200: #e2e8f0;
+    /* Textes */
+    --texte-primaire: #1e293b;
+    --texte-secondaire: #64748b;
+    --texte-clair: #94a3b8;
+    /* Arrière-plans */
+    --arriere-plan-clair: #f8fafc;
+    --arriere-plan-surface: #ffffff;
+    /* Bordures */
+    --bordure-claire: #e2e8f0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: var(--texte-primaire);
+    background-color: var(--arriere-plan-clair);
+    margin: 0;
+    padding: 0;
+}
+
+.section-donnees {
+    max-width: 80%;
+    margin: 5% auto;
+    padding: 1rem;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.section-donnees-admin{
+    background-color: #334155;
+    padding: 2rem 5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Titres */
+.titre-section-principale {
+    font-size: 1.4rem;
+    color: white;
+    margin-bottom: 1.5rem;
+}
+
+/* Bouton admin */
+.bouton-admin {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--primaire);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+/* Système de bascule */
+.basculer-tableau {
+    display: none;
+}
+
+.entete-tableau {
+    display: block;
+    padding: 1rem;
+    background-color: var(--arriere-plan-surface);
+    border: 1px solid var(--bordure-claire);
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+}
+
+.titre-tableau {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: bold;
+    color: var(--primaire-fonce);
+    margin: 0;
+}
+
+.basculer-tableau:checked ~ .entete-tableau .icone-developper {
+    transform: rotate(180deg);
+}
+
+.contenu-tableau {
+    max-height: 0;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.basculer-tableau:checked ~ .contenu-tableau {
+    max-height: 1000px;
+}
+
+/* Tableau */
+.tableau {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--arriere-plan-surface);
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin: 5% 0%;
+}
+
+.tableau th {
+    background-color: var(--primaire);
+    color: white;
+    padding: 1rem;
+    text-align: left;
+}
+
+.tableau td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--bordure-claire);
+}
+
+.tableau tr:hover {
+    background-color: var(--primaire-clair);
+}
+
+/* Badge utilisateur */
+.badge-utilisateur {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Rôles */
+.etiquette-role {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.etiquette-role.superadmin {
+    background-color: var(--rouge);
+    color: white;
+}
+
+.etiquette-role.admin {
+    background-color: var(--orange);
+}
+
+.etiquette-role.enseignant {
+    background-color: var(--secondaire);
+    color: white;
+}
+
+/* Actions */
+.boutons-action {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.bouton-icone {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+}
+
+.bouton-icone.modifier {
+    background-color: var(--secondaire);
+}
+
+.bouton-icone.supprimer {
+    background-color: var(--rouge);
+}
+
+
+
+@media screen and (max-width: 1200px) {
+
+    .haut, .bas {
+        grid-template-columns: 1fr; 
+        display: grid;
+                text-align: center;
+}
+
+.tableau th, .badge-utilisateur{
+    text-align: center;
+}
+
+.bouton-icone{
+    width: 10rem;
+    height: 5rem;
+    border-radius: 20px;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 0% 25%;
+}
+}

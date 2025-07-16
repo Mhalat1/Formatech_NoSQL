@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<title>Utilisateur et Utilisateurs</title>
+		<link rel="stylesheet" href="{{ asset('css/utilisateurinstitution.css') }}">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	</head>
+
+	<body class="theme-moderne">
+		{% block body %}
+			{% include 'haut_de_page/haut_de_page.html.twig' %}
+
+			<!-- Section Liste des Utilisateurs -->
+			<section class="section-donnees-admin">
+
+
+					{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+						<h1 class="titre-section-principale">
+							Partie Administration
+						</h1>
+						<div class="invitations">
+							<a href="https://127.0.0.1:8000/admin/invite" class="bouton-admin">
+								<i class="material-icons-round">person_add</i>
+								Inviter de nouveaux utilisateurs
+							</a>
+						</div>
+
+						<div class="conteneur-tableau">
+							<input type="checkbox" id="basculer-tableau-utilisateurs" class="basculer-tableau">
+							<label for="basculer-tableau-utilisateurs" class="entete-tableau">
+								<h3 class="titre-tableau">
+									<i class="material-icons-round">people</i>
+									Liste des Utilisateurs
+									<span class="icone-developper">
+										<i class="material-icons-round">expand_more</i>
+									</span>
+								</h3>
+							</label>
+
+							<div class="contenu-tableau">
+								<div class="enveloppe-tableau">
+									<table class="tableau">
+										<thead>
+											<tr class="haut">
+												<th>Nom</th>
+												<th>Prénom</th>
+												{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+													<th>Contact</th>
+													<th>Naissance</th>
+												{% endif %}
+												{% if is_granted('ROLE_ADMIN') %}
+													<th>Rôle</th>
+													<th>Actions</th>
+												{% endif %}
+											</tr>
+										</thead>
+
+										<tbody>
+											{% for utilisateur in utilisateurs_liste %}
+												<tr onclick="window.location.href='{{ path('utilisateur_liste', { 'id': utilisateur.id }) }}'" class="bas"'}}">
+													<td>
+														<div class="info-contact">
+															{{ utilisateur.nom }}
+														</div>
+													</td>
+													<td>{{ utilisateur.prenom }}</td>
+
+													{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+														<td>
+															<div class="info-contact">
+																<div>{{ utilisateur.courriel }}</div>
+																<div class="telephone">{{ utilisateur.telephone ? '0' ~ utilisateur.telephone : '' }}</div>
+															</div>
+														</td>
+														<td>{{ utilisateur.dateNaissance|date('d/m/Y') }}</td>
+													{% endif %}
+
+													{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') %}
+														<td>
+															<div class="etiquette-role {{ utilisateur.roles|join(' ')|replace({'ROLE_': ''})|lower }}">
+																{{ utilisateur.roles|join(' ')|replace({'ROLE_': ''}) }}
+															</div>
+														</td>
+														<td class="boutons-action">
+															<a href="{{ path('utilisateur_modifier_roles', { 'id': utilisateur.id }) }}" class="bouton-icone modifier" title="Modifier les rôles">
+																<i class="material-icons-round">manage_accounts</i>
+															</a>
+															<a href="{{ path('institution_index_ajouter', { 'supprimer_utilisateur': utilisateur.id }) }}" class="bouton-icone supprimer" title="Supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
+																<i class="material-icons-round">delete</i>
+															</a>
+														</td>
+													{% endif %}
+												</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+				</section>
+
+
+			<!-- Section Utilisateur Actuel -->
+			<section class="section-donnees">
+				<div class="conteneur-tableau">
+					<table class="tableau">
+						<thead>
+							<tr class="haut">
+								<th>Nom</th>
+								<th>Prénom</th>
+								{% if is_granted('ROLE_ENSEIGNANT') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPERADMIN') %}
+									<th>Contact</th>
+									<th>Naissance</th>
+								{% endif %}
+								{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') %}
+									<th>Rôle</th>
+									<th>Actions</th>
+								{% endif %}
+							</tr>
+						</thead>
+
+						<tbody>
+							{% for utilisateur in utilisateurs_liste %}
+								{% if utilisateur.id == app.user.id %}
+									<tr onclick="window.location.href='{{ path('utilisateur_liste', { 'id': utilisateur.id }) }}'" class="{{ utilisateur.id == app.user.id ? 'bas' : '' }}">
+										<td>
+											<div class="info-contact">
+												{{ utilisateur.nom }}
+											</div>
+										</td>
+										<td>{{ utilisateur.prenom }}</td>
+
+										{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+											<td>
+												<div class="info-contact">
+													<div>{{ utilisateur.courriel }}</div>
+													<div class="telephone">{{ utilisateur.telephone ? '0' ~ utilisateur.telephone : '' }}</div>
+												</div>
+											</td>
+											<td>{{ utilisateur.dateNaissance|date('d/m/Y') }}</td>
+										{% endif %}
+
+										{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') %}
+											<td>
+												<div class="etiquette-role {{ utilisateur.roles|join(' ')|replace({'ROLE_': ''})|lower }}">
+													{{ utilisateur.roles|join(' ')|replace({'ROLE_': ''}) }}
+												</div>
+											</td>
+											<td class="boutons-action">
+												<a href="{{ path('utilisateur_modifier_roles', { 'id': utilisateur.id }) }}" class="bouton-icone modifier" title="Modifier les rôles">
+													<i class="material-icons-round">manage_accounts</i>
+												</a>
+												<a href="{{ path('institution_index_ajouter', { 'supprimer_utilisateur': utilisateur.id }) }}" class="bouton-icone supprimer" title="Supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
+													<i class="material-icons-round">delete</i>
+												</a>
+											</td>
+										{% endif %}
+									</tr>
+								{% endif %}
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</section>
+		</body>
+	</html>
+</main>{% endblock %}</body></html>

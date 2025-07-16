@@ -1,0 +1,5 @@
+*.cache
+/vendor
+.env.local
+.env.test
+.env2

@@ -1,0 +1,185 @@
+
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            margin: 0; padding: 0;
+        }
+
+        .conteneur-principal {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+            grid-template-columns: 1fr 2fr;
+            display: grid;
+
+        }
+
+        .section-gauche {
+            background: linear-gradient(135deg, #0066cc 0%, #004080 100%);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 2rem;
+        }
+
+        .titre-principal {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .sous-titre {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            text-align: center;
+        }
+
+        .section-droite {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f8f9fa;
+            padding: 2rem;
+        }
+
+        .formulaire-connexion {
+            background: white;
+            padding: 6rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 70%;
+        }
+
+        .titre-formulaire {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: #333;
+            text-align: center;
+        }
+
+        .message-erreur {
+            background: #fee;
+            color: #c33;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #c33;
+        }
+
+        .message-succes {
+            background: #efe;
+            color: #363;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #363;
+        }
+
+        .texte-utilisateur {
+            margin-bottom: 0.5rem;
+        }
+
+        .identifiant-utilisateur {
+            font-weight: bold;
+        }
+
+        .lien-deconnexion {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .lien-deconnexion:hover {
+            text-decoration: underline;
+        }
+
+        .groupe-champ {
+            margin-bottom: 1.5rem;
+        }
+
+        .groupe-champ label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .groupe-champ input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .groupe-champ input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .bouton-connexion {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #0066cc 0%, #004080 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .bouton-connexion:hover {
+            transform: translateY(-2px);
+        }
+
+        .lien-inscription {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #666;
+        }
+
+        .lien-inscription a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .lien-inscription a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+
+            .conteneur-principal{
+                display: grid;
+                
+            grid-template-columns: 1fr;
+
+            }
+            .conteneur-principal {
+                flex-direction: column;
+                display: block;
+            }
+            
+            .section-gauche {
+                padding: 1rem;
+                height: 300px;
+            }
+            
+            .titre-principal {
+                font-size: 2rem;
+            }
+            
+            .formulaire-connexion {
+                padding: 2rem;
+            }
+        }

@@ -1,0 +1,184 @@
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+        
+        .conteneur-principal {
+            width: 90%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        /* En-tête */
+        .en-tete {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .titre-principal {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .titre-principal i {
+            color: #2563eb;
+            margin-right: 1rem;
+        }
+        
+        .sous-titre {
+            font-size: 1.25rem;
+            color: #555;
+        }
+        
+        /* Carte formulaire */
+        .carte-formulaire {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            border: 1px solid #eee;
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .carte-formulaire:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Champs de formulaire */
+        .groupe-champ {
+            margin-bottom: 1.5rem;
+        }
+        
+        .label-champ {
+            display: block;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: #444;
+            margin-bottom: 0.5rem;
+        }
+        
+        .conteneur-input {
+            position: relative;
+        }
+        
+        .icone-input {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        
+        .input-champ {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 1px solid #ddd;
+            border-radius: 1rem;
+            font-size: 1.125rem;
+            transition: all 0.2s ease;
+        }
+        
+        .input-champ:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+        
+        .input-champ:hover {
+            border-color: #bbb;
+        }
+        
+        .message-info {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 0.75rem;
+            padding: 0.75rem;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: #1d4ed8;
+            display: flex;
+            align-items: center;
+        }
+        
+        .message-info i {
+            margin-right: 0.5rem;
+        }
+        
+        /* Bouton */
+        .bouton-principal {
+            width: 100%;
+            background: linear-gradient(to right, #2563eb, #1d4ed8, #1e40af);
+            color: white;
+            padding: 1.25rem 2rem;
+            border-radius: 1.5rem;
+            font-weight: 700;
+            font-size: 1.125rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+        
+        .bouton-principal:hover {
+            background: linear-gradient(to right, #1d4ed8, #1e40af, #1e3a8a);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
+        
+        .bouton-principal i {
+            margin-right: 0.75rem;
+        }
+        
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            padding: 1rem 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+        }
+        
+        .notification-success {
+            background: #10b981;
+            color: white;
+        }
+        
+        .notification-error {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .notification i {
+            margin-right: 0.5rem;
+        }
+        
+        /* Message d'erreur */
+        .message-erreur {
+            color: #dc2626;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        
+        /* Texte secondaire */
+        .texte-secondaire {
+            font-size: 0.875rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }

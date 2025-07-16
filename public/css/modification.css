@@ -1,0 +1,133 @@
+:root {
+    --couleur-principale: #4361ee;
+    --couleur-secondaire: #3a0ca3;
+    --couleur-texte: #2b2d42;
+    --couleur-texte-clair: #94a3b8;
+    --couleur-fond: #f8f9fa;
+    --couleur-carte: #ffffff;
+    --couleur-bordure: #e5e7eb;
+    --couleur-success: #10b981;
+    --ombres-legères: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+body.corps {
+    min-height: 100vh;
+    background-color: var(--couleur-fond);
+    color: var(--couleur-texte);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+}
+
+/* Structure simplifiée */
+.carte {
+    background: var(--couleur-carte);
+    border-radius: 8px;
+    box-shadow: var(--ombres-legères);
+    border: 1px solid var(--couleur-bordure);
+        border-radius: 15px;
+    overflow: hidden;
+}
+
+.en-tete-carte {
+    background-color: var(--couleur-principale);
+    color: white;
+    padding: 1.25rem;
+}
+
+.corps-carte {
+    padding: 1.5rem;
+    padding: 1.5rem;
+background-color: #334155;
+}
+
+/* Formulaire basique mais efficace */
+.groupe-formulaire {
+    margin-bottom: 1.25rem;
+}
+li{
+    color:white;
+}
+.libelle-formulaire {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    display: block;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.controle-formulaire {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--couleur-bordure);
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.controle-formulaire:focus {
+    border-color: var(--couleur-principale);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.1);
+}
+
+/* Messages simples */
+.message-success {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--couleur-success);
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Boutons fonctionnels */
+.bouton {
+    padding: 0.75rem 1.25rem;
+    border-radius: 6px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    cursor: pointer;
+}
+
+.bouton-primaire {
+    background-color: var(--couleur-principale);
+    color: white;
+}
+
+.bouton-primaire:hover {
+    background-color: var(--couleur-secondaire);
+}
+
+.bouton-secondaire {
+    background-color: white;
+    color: var(--couleur-principale);
+    border: 1px solid var(--couleur-principale);
+}
+
+.bouton-secondaire:hover {
+    background-color: #f9fafb;
+}
+
+/* Grille simple */
+.grille {
+    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5%;
+
+}
+
+
+/* Espacements de base */
+.espacement-vertical {
+    margin: 5% 15%;
+}
+
+.espacement-haut {
+    margin-top: 1.5rem;
+}
+

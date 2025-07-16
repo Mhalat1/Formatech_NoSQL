@@ -1,0 +1,572 @@
+:root {
+    /* Couleurs */
+    --primaire: #4361ee;
+    --primaire-clair: #ebf0ff;
+    --primaire-fonce: #3a0ca3;
+    --secondaire: #4895ef;
+    --bleu_claire: #4cc9f0;
+    --orange: #ffbe0b;
+    --rouge: #ef233c;
+    --gris-200: #e2e8f0;
+    
+    /* Textes */
+    --texte-primaire: #1e293b;
+    --texte-secondaire: #64748b;
+    --texte-clair: #94a3b8;
+    
+    /* Arrière-plans */
+    --arriere-plan-clair: #f8fafc;
+    --arriere-plan-surface: #ffffff;
+    --arriere-plan-fonce: #0f172a;
+    
+    /* Bordures */
+    --bordure-claire: #e2e8f0;
+    --bordure-moyenne: #cbd5e1;
+    
+    /* Espacements */
+    --espacement-xs: 0.5rem;
+    --espacement-sm: 0.75rem;
+    --espacement-md: 1rem;
+    --espacement-lg: 1.5rem;
+    --espacement-xl: 2rem;
+    --espacement-2xl: 3rem;
+    
+    /* Rayons de bordure */
+    --rayon-sm: 0.375rem;
+    --rayon-md: 0.5rem;
+    --rayon-lg: 0.75rem;
+    --rayon-xl: 1rem;
+    
+    /* Ombres */
+    --ombre-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --ombre-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --ombre-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --ombre-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    /* Transitions */
+    --transition-rapide: 0.2s ease;
+    --transition-normale: 0.3s ease;
+    --transition-lente: 0.5s ease;
+}
+
+body {
+    line-height: 1.6;
+    color: var(--texte-primaire);
+    background-color: var(--arriere-plan-clair);
+    font-weight: 400;
+}
+
+.disposition-moderne {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.conteneur-contenu {
+    flex: 1;
+    padding: var(--espacement-xl);
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.conteneur {
+    background: var(--arriere-plan-surface);
+    border-radius: var(--rayon-lg);
+    box-shadow: var(--ombre-md);
+    margin-bottom: var(--espacement-xl);
+    overflow: hidden;
+}
+
+.corps {
+    padding: var(--espacement-xl);
+}
+
+/* ============ SECTIONS ============ */
+.creations_formulaire {
+    margin: 0 auto;
+    width: 100%;
+    background-color: #334155;
+    padding: 2% 10%;
+}
+
+.section-profil {
+    background: var(--arriere-plan-surface);
+    border-radius: var(--rayon-lg);
+    box-shadow: var(--ombre-md);
+    padding: var(--espacement-xl);
+    margin-bottom: var(--espacement-xl);
+}
+
+.section-donnees {
+    padding: var(--espacement-xl);
+}
+
+.section-graphique {
+    background: var(--arriere-plan-surface);
+    border-radius: var(--rayon-lg);
+    box-shadow: var(--ombre-md);
+    padding: var(--espacement-xl);
+    margin-bottom: var(--espacement-xl);
+}
+
+.ecranPdf {
+    background: var(--arriere-plan-surface);
+    border-radius: var(--rayon-lg);
+    box-shadow: var(--ombre-md);
+    padding: var(--espacement-xl);
+    margin-bottom: var(--espacement-xl);
+}
+
+/* ============ HEADERS ============ */
+.en-tete {
+    background: linear-gradient(135deg, var(--primaire), var(--secondaire));
+    color: white;
+    padding: var(--espacement-lg) var(--espacement-xl);
+    margin: 0;
+    border-radius: var(--rayon-lg) var(--rayon-lg) 0 0;
+}
+.en-tete h1 {
+    font-size: 1.5rem;
+}
+
+.titre-section-principale {
+    font-size: 2rem;
+    font-weight: 600;
+    color: white;
+}
+
+.titre-section {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--texte-primaire);
+    display: flex;
+    align-items: center;
+    gap: var(--espacement-md);
+    margin-bottom: var(--espacement-lg);
+}
+
+.titre-sous-section {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--texte-primaire);
+    display: flex;
+    align-items: center;
+    gap: var(--espacement-md);
+    margin-bottom: var(--espacement-lg);
+}
+
+/* ============ FORMULAIRES ============ */
+.section-formulaire {
+    background: var(--arriere-plan-surface);
+    border: 1px solid var(--bordure-claire);
+    border-radius: var(--rayon-lg);
+    padding: var(--espacement-lg);
+    margin-bottom: var(--espacement-lg);
+}
+
+.section-individuelle {
+    border-left: 4px solid var(--primaire);
+}
+
+.section-groupe {
+    border-left: 4px solid var(--bleu_claire);
+}
+
+.section-session {
+    border-left: 4px solid var(--orange);
+}
+
+.titre-section {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--texte-primaire);
+    margin-bottom: var(--espacement-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--espacement-md);
+}
+
+.groupe-formulaire {
+    margin-bottom: var(--espacement-lg);
+}
+
+.groupe-formulaire label {
+    display: block;
+    font-weight: 500;
+    color: var(--texte-primaire);
+    margin-bottom: var(--espacement-sm);
+}
+
+.controle-formulaire {
+    width: 100%;
+    padding: var(--espacement-sm) var(--espacement-md);
+    border: 1px solid var(--bordure-claire);
+    border-radius: var(--rayon-md);
+    font-size: 1rem;
+    transition: var(--transition-rapide);
+    background: var(--arriere-plan-surface);
+}
+
+.controle-formulaire:focus {
+    outline: none;
+    border-color: var(--primaire);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+}
+
+.formulaire-inline {
+    display: inline-block;
+    margin: 0;
+}
+
+/* ============ BOUTONS ============ */
+.bouton {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espacement-sm);
+    padding: var(--espacement-sm) var(--espacement-lg);
+    border: none;
+    border-radius: var(--rayon-md);
+    font-weight: 500;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: var(--transition-rapide);
+    text-decoration: none;
+    line-height: 1.5;
+    margin-right: var(--espacement-sm);
+    margin-bottom: var(--espacement-sm);
+}
+
+.bouton-primaire {
+    background: var(--primaire);
+    color: white;
+}
+
+.bouton-primaire:hover {
+    background: var(--primaire-fonce);
+    transform: translateY(-1px);
+    box-shadow: var(--ombre-md);
+}
+
+.bouton-succes {
+    background: var(--bleu_claire);
+    color: white;
+}
+
+.bouton-succes:hover {
+    background: #3bb3d3;
+    transform: translateY(-1px);
+    box-shadow: var(--ombre-md);
+}
+
+.bouton-avertissement {
+    background: var(--orange);
+    color: var(--texte-primaire);
+}
+
+.bouton-avertissement:hover {
+    background: #e6a800;
+    transform: translateY(-1px);
+    box-shadow: var(--ombre-md);
+}
+
+.bouton-lg {
+    padding: var(--espacement-md) var(--espacement-xl);
+    font-size: 1rem;
+}
+
+.boutons-action {
+    display: flex;
+    gap: var(--espacement-md);
+    margin-bottom: var(--espacement-lg);
+}
+
+.bouton-action {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espacement-sm);
+    padding: var(--espacement-sm) var(--espacement-lg);
+    border-radius: var(--rayon-md);
+    font-weight: 500;
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: var(--transition-rapide);
+}
+
+.bouton-action.primaire {
+    background: var(--primaire);
+    color: white;
+}
+
+.bouton-action.primaire:hover {
+    background: var(--primaire-fonce);
+    transform: translateY(-1px);
+    box-shadow: var(--ombre-md);
+}
+
+.bouton-icone {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--rayon-md);
+    border: none;
+    cursor: pointer;
+    transition: var(--transition-rapide);
+    margin-right: var(--espacement-xs);
+}
+
+.bouton-icone.modifier {
+    background: var(--primaire-clair);
+    color: var(--primaire);
+}
+
+.bouton-icone.modifier:hover {
+    background: var(--primaire);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: var(--ombre-md);
+}
+
+.bouton-icone.supprimer {
+    background: rgba(239, 35, 60, 0.1);
+    color: var(--rouge);
+}
+
+.bouton-icone.supprimer:hover {
+    background: var(--rouge);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: var(--ombre-md);
+}
+
+/* ============ TABLEAUX ============ */
+.conteneur-tableau {
+    background: var(--arriere-plan-surface);
+    border-radius: var(--rayon-lg);
+    overflow: hidden;
+    box-shadow: var(--ombre-sm);
+    margin-bottom: var(--espacement-lg);
+}
+
+.tableau {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tableau thead {
+    background: var(--arriere-plan-clair);
+}
+
+.tableau th {
+    padding: var(--espacement-md) var(--espacement-lg);
+    text-align: left;
+    font-weight: 600;
+    color: var(--texte-primaire);
+    border-bottom: 2px solid var(--bordure-claire);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.tableau td {
+    padding: var(--espacement-md) var(--espacement-lg);
+    border-bottom: 1px solid var(--bordure-claire);
+    color: var(--texte-secondaire);
+    vertical-align: middle;
+}
+
+.tableau tr:hover {
+    background: var(--arriere-plan-clair);
+}
+
+.cellule-commentaire {
+    max-width: 200px;
+    word-wrap: break-word;
+}
+
+.cellule-note {
+    font-weight: 600;
+    color: var(--texte-primaire);
+}
+
+.aucun-commentaire,
+.aucune-note {
+    color: var(--texte-clair);
+    font-style: italic;
+}
+
+.aucune-donnee {
+    text-align: center;
+    color: var(--texte-clair);
+    font-style: italic;
+    padding: var(--espacement-xl);
+}
+
+.actions {
+    display: flex;
+    gap: var(--espacement-sm);
+    justify-content: flex-end;
+}
+
+.texte-droite {
+    text-align: right;
+}
+
+/* ============ PROFIL ============ */
+.grille-profil {
+    display: grid;
+    gap: var(--espacement-lg);
+}
+
+.carte-profil {
+    background: var(--arriere-plan-clair);
+    border-radius: var(--rayon-lg);
+    padding: var(--espacement-lg);
+    border: 1px solid var(--bordure-claire);
+}
+
+.detail-profil {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--espacement-md) 0;
+    border-bottom: 1px solid var(--bordure-claire);
+}
+
+.detail-profil:last-child {
+    border-bottom: none;
+}
+
+.etiquette-detail {
+    font-weight: 500;
+    color: var(--texte-secondaire);
+}
+
+.valeur-detail {
+    font-weight: 600;
+    color: var(--texte-primaire);
+}
+
+
+
+
+/* ============ RESPONSIVE MOBILE (max-width: 768px) ============ */
+@media screen and (max-width: 1200px) {
+    /* Disposition générale */
+    .disposition-moderne {
+        min-height: auto;
+    }
+    .nom th, .resultat th {
+        text-align:center;
+    }
+
+    .nom, .resultat{
+        display: grid;
+    }
+    
+    .conteneur-contenu {
+        padding: var(--espacement-md);
+    }
+    
+    .conteneur, 
+    .section-profil, 
+    .section-graphique, 
+    .ecranPdf,
+    .section-formulaire {
+        border-radius: var(--rayon-md);
+        margin-bottom: var(--espacement-lg);
+    }
+    
+    .corps {
+        padding: var(--espacement-lg);
+    }
+    
+    .en-tete {
+        padding: var(--espacement-md);
+        border-radius: var(--rayon-md) var(--rayon-md) 0 0;
+    }
+    
+    .titre-section-principale {
+        font-size: 1.5rem;
+    }
+    
+    .titre-section,
+    .titre-sous-section {
+        font-size: 1.25rem;
+        margin-bottom: var(--espacement-md);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--espacement-sm);
+    }
+
+    .groupe-formulaire {
+        margin-bottom: var(--espacement-md);
+    }
+
+    .boutons-action {
+        flex-direction: column;
+        gap: var(--espacement-sm);
+    }
+    
+    .bouton {
+        width: 100%;
+        justify-content: center;
+        margin-right: 0;
+    }
+    
+    /* Tableaux */
+    .conteneur-tableau {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .tableau {
+        min-width: 600px; /* Force le défilement horizontal */
+    }
+    
+    .tableau th,
+    .tableau td {
+        padding: var(--espacement-sm) var(--espacement-md);
+        font-size: 0.8125rem;
+    }
+    
+    .actions {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+    
+    /* Profil */
+    .grille-profil {
+        grid-template-columns: 1fr;
+        gap: var(--espacement-md);
+    }
+    
+    .carte-profil {
+        padding: var(--espacement-md);
+    }
+    
+    .detail-profil {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--espacement-xs);
+        padding: var(--espacement-sm) 0;
+    }
+    
+    /* Créations formulaire */
+    .creations_formulaire {
+        padding: var(--espacement-lg) var(--espacement-md);
+    }
+    
+    /* Ajustements spécifiques */
+    .texte-droite {
+        text-align: left;
+    }
+    
+    .formulaire-inline {
+        display: block;
+        width: 100%;
+        margin-bottom: var(--espacement-sm);
+    }
+}

@@ -1,0 +1,25 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
+framework:
+
+
+    http_method_override: true
+    secret: '%env(APP_SECRET)%'
+    router:
+        http_port: 8000
+        https_port: 443
+
+    csrf_protection: true
+
+    # Note that the session will be started ONLY if you read or write from it.
+    session: 
+        handler_id: null  # Use the default session handler
+        cookie_lifetime: 3600  # Set session lifetime (in seconds)
+        cookie_secure: false
+        cookie_samesite: 'lax'    #esi: true
+    #fragments: true
+
+when@test:
+    framework:
+        test: true
+        session:
+            storage_factory_id: session.storage.factory.mock_file

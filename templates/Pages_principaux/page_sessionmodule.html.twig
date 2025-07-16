@@ -1,0 +1,974 @@
+<head>
+	<meta charset="UTF-8">
+	<title>Gestion UISM</title>
+	<link rel="stylesheet" href="{{ asset('css/sessionmodule.css') }}">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+{% include 'haut_de_page/haut_de_page.html.twig' %}
+
+
+<body class="mise-en-page-moderne">
+
+	<div class="partie_admin">
+
+
+		{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+	<h1 class="titre-section-principale">
+		Partie Administration
+	</h1>
+			{% set utilisateurActuel = app.user %}
+			{% for utilisateur in utilisateurs %}
+				{% if utilisateur.id == utilisateurActuel.id %}
+
+					<div class="message-abonnement">
+
+						<p>Type d'abonnement:
+							<span class="badge-abonnement {{ utilisateurActuel.abonnementType|lower }}">
+								{{ utilisateur.abonnementType ?? 'Aucun' }}
+							</span>
+						</p>
+						{% if utilisateurActuel.abonnementType == 'premium' %}
+							<p>Institutions créées:
+								{{ utilisateur.nombreInstitutions }}</p>
+						{% endif %}
+
+					</br>
+
+					{% if utilisateurActuel.abonnementType == 'basique' %}
+						<p class="texte-info">Abonnement basique - Jusqu'à 1 000 utilisateurs</p>
+					{% endif %}
+					{% if utilisateurActuel.abonnementType == 'premium' %}
+						<p class="texte-info texte-premium">Abonnement premium - Jusqu'à 10 000 utilisateurs</p>
+					{% endif %}
+				</div>
+
+				<div class="conteneur-tableau">
+					<table class="tableau">
+						<thead>
+							<tr>
+								<th>Nom de l'institution</th>
+								<th>Nombre d'utilisateurs</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for resultat in resultats %}
+								<tr>
+									<td>{{ resultat.institutionNom }}</td>
+									<td>
+										{# Affiche le total pour chaque enregistrement #}
+										{% for count in nombreutilisateurs %}
+											{{ count.total }}
+										{% else %}
+											0
+										{% endfor %}
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			{% endif %}
+		{% endfor %}
+	{% endif %}
+</body></body>{% for message in app.flashes('success') %}
+<div class="alerte alerte-succes">
+	<i class="material-icons-round">check_circle</i>
+	{{ message }}
+</div>{% endfor %}{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+
+<section class="section-formulaire">
+
+	<h2 class="titre-section">
+		<i class="material-icons-round">group_add</i>
+		Créer une nouvelle Institution
+	</h2>
+
+	{% if utilisateurActuel.abonnementType == 'basique' %}
+		Passez à un abonnement premium pour créer plusieurs Institutions
+	{% else %}
+		{% if utilisateurActuel and utilisateurActuel.nombreInstitutions < 5 %}
+
+			<div class="conteneur-formulaire">
+				{{ form_start(formInstitution) }}
+				<div class="grille-formulaire">
+					<div class="groupe-formulaire">
+						{{ form_row(formInstitution.nom, {
+											'attr': {'class': 'champ-formulaire'}
+										}) }}
+					</div>
+					<div class="groupe-formulaire">
+						{{ form_row(formInstitution.adresse, {
+											'attr': {'class': 'champ-formulaire'}
+										}) }}
+					</div>
+					<div class="groupe-formulaire">
+						{{ form_row(formInstitution.telephone, {
+											'attr': {'class': 'champ-formulaire'}
+										}) }}
+					</div>
+					<div class="groupe-formulaire">
+						{{ form_row(formInstitution.courriel, {
+											'attr': {'class': 'champ-formulaire'}
+										}) }}
+					</div>
+					<div class="soumission-formulaire">
+						<button type="submit" class="bouton-soumission">
+							<i class="material-icons-round">add_circle</i>
+							Créer Institution
+						</button>
+					</div>
+				</div>
+
+				{{ form_end(formInstitution) }}
+			</div>
+		{% else %}
+			<div class="alerte alerte-avertissement">
+				Vous avez atteint la limite de 5 institutions.
+			</div>
+		{% endif %}
+	{% endif %}
+</section>{% endif %}<!-- FORMULAIRE CREATION SESSION --><!-- Formulaire Association Utilisateur (Admin/Enseignant) -->{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+<section class="section-formulaire">
+	<h2 class="titre-section">
+		<i class="material-icons-round">group_add</i>
+		Créer une nouvelle session
+	</h2>
+	<div class="conteneur-formulaire">
+		{{ form_start(formSession) }}
+		<div class="grille-formulaire">
+			<div class="groupe-formulaire">
+				{{ form_row(formSession.nom, {
+										'attr': {'class': 'champ-formulaire'}
+									}) }}
+			</div>
+			<div class="groupe-formulaire">
+				{{ form_row(formSession.type, {
+										'attr': {'class': 'champ-formulaire'}
+									}) }}
+			</div>
+			<div class="groupe-formulaire">
+				{{ form_row(formSession.date_debut, {
+										'attr': {'class': 'champ-formulaire'}
+									}) }}
+			</div>
+			<div class="groupe-formulaire">
+				{{ form_row(formSession.date_fin, {
+										'attr': {'class': 'champ-formulaire'}
+									}) }}
+			</div>
+			<div class="groupe-formulaire">
+				{{ form_row(formSession.description, {
+										'attr': {'class': 'champ-formulaire'}
+									}) }}
+			</div>
+			<div class="soumission-formulaire">
+				<button type="submit" class="bouton-soumission">
+					<i class="material-icons-round">add_circle</i>
+					Créer Session
+				</button>
+			</div>
+		</div>
+
+		{{ form_end(formSession) }}
+	</div>
+</section>{% endif %}{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+	<section class="section-formulaire">
+	<h2 class="titre-section">
+		<i class="material-icons-round">group_add</i>
+		Créer un nouveau module
+	</h2>
+	<div class="conteneur-formulaire">
+		{{ form_start(formModule) }}
+		<div class="grille-formulaire">
+			<div class="groupe-formulaire">
+				{{ form_row(formModule.nom, {
+										'attr': {'class': 'champ-formulaire'}
+									}) }}
+			</div>
+			<div class="groupe-formulaire">
+				{{ form_row(formModule.description, {
+										'attr': {'class': 'champ-formulaire'}
+									}) }}
+			</div>
+			<div class="groupe-formulaire">
+				{{ form_row(formModule.commentaire, {
+										'attr': {'class': 'champ-formulaire'}
+									}) }}
+			</div>
+			<div class="groupe-formulaire">
+				{{ form_row(formModule.date_debut, {
+										'attr': {'class': 'champ-formulaire'}
+									}) }}
+			</div>
+			<div class="groupe-formulaire">
+				{{ form_row(formModule.date_fin, {
+										'attr': {'class': 'champ-formulaire'}
+									}) }}
+			</div>
+
+			<div class="soumission-formulaire">
+				<button type="submit" class="bouton-soumission">
+					<i class="material-icons-round">add_circle</i>
+					Créer Module
+				</button>
+			</div>
+
+			{{ form_end(formModule) }}
+		</div>
+	</section>
+{% endif %}
+
+<!-- Formulaire Horaires -->
+{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+	<section class="section-formulaire">
+		<div class="entete-section">
+			<h2 class="titre-section">
+				<i class="material-icons-round">schedule</i>
+				Définir les horaires du module
+			</h2>
+			<p class="description-section">
+				Configurez les créneaux horaires pour vos sessions de formation
+			</p>
+		</div>
+
+		<div class="conteneur-formulaire">
+			{{ form_start(formHoraire, {'attr': {'class': 'formulaire-horaire'}}) }}
+			<div
+				class="grille-formulaire_horaire">
+				<!-- Champ Session Module -->
+				<div class="groupe-formulaire-ligne">
+					<div class="groupe-formulaire">
+						{{ form_row(formHoraire.UtilisateurInstitutionSessionModule, {
+										'label': 'Utilisateur Institution Session Module',
+										'attr': {
+											'class': 'controle-formulaire selection-module-session',
+											'data-placeholder': 'Sélectionnez une session'
+										},
+										'help': 'Choisissez un module associé à une session de formation'
+									}) }}
+					</div>
+				</div>
+
+				<!-- Jour de la semaine -->
+				<div class="groupe-formulaire-ligne">
+					<div class="groupe-formulaire">
+						{{ form_row(formHoraire.jour, {
+										'attr': {'class': 'controle-formulaire'}
+									}) }}
+					</div>
+				</div>
+
+				<!-- Date précise -->
+				<div class="groupe-formulaire-ligne">
+					<div class="groupe-formulaire">
+						{{ form_row(formHoraire.datePrecise, {
+										'attr': {'class': 'controle-formulaire selecteur-date'}
+									}) }}
+					</div>
+				</div>
+
+				<!-- Heures -->
+				<div class="groupe-formulaire-ligne champs-heure">
+					<div class="groupe-formulaire">
+						{{ form_row(formHoraire.heureDebut, {
+										'attr': {'class': 'controle-formulaire selecteur-heure'}
+									}) }}
+					</div>
+					<div class="groupe-formulaire">
+						{{ form_row(formHoraire.heureFin, {
+										'attr': {'class': 'controle-formulaire selecteur-heure'}
+									}) }}
+					</div>
+				</div>
+			</div>
+
+			<div class="actions-formulaire">
+				<button type="submit" class="bouton bouton-principal">
+					<i class="material-icons-round">save</i>
+					Enregistrer les horaires
+				</button>
+				<button type="reset" class="bouton bouton-secondaire">
+					<i class="material-icons-round">refresh</i>
+					Réinitialiser
+				</button>
+			</div>
+			{{ form_end(formHoraire) }}
+		</div>
+	</section>
+
+	<!-- Formulaire Association Utilisateur (Admin/Enseignant) -->
+	{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+		<section class="section-formulaire-association">
+			<h2 class="titre-section">
+				<i class="material-icons-round">group_add</i>
+				Associer un Module à un Utilisateur
+			</h2>
+			<div class="conteneur-formulaire-association">
+				{{ form_start(formUtilisateurInstitutionSessionModule) }}
+				<div class="grille-formulaire-association">
+					<div class="groupe-formulaire">
+						{{ form_row(formUtilisateurInstitutionSessionModule.Utilisateur, {
+										'attr': {'class': 'champ-formulaire'}
+									}) }}
+					</div>
+					<div class="groupe-formulaire">
+						{{ form_row(formUtilisateurInstitutionSessionModule.SessionModule, {
+										'attr': {'class': 'champ-formulaire'}
+									}) }}
+					</div>
+					<div class="soumission-formulaire">
+						<button type="submit" class="bouton-soumission">
+							<i class="material-icons-round">add_circle</i>
+							Créer association
+						</button>
+					</div>
+				</div>
+				{{ form_end(formUtilisateurInstitutionSessionModule) }}
+			</div>
+		</section>
+	{% endif %}
+
+	<!-- Tableau des Associations Existantes -->
+	<section class="section-tableau">
+		<h2 class="titre-section">
+			<i class="material-icons-round">list_alt</i>
+			Modules suivie par Utilisateur
+		</h2>
+		<div class="tableau-adaptatif">
+			<table class="tableau-donnees">
+				<thead>
+					<tr>
+						<th>Utilisateur</th>
+						<th>Session</th>
+						<th>Module</th>
+						{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+							<th>Rôles</th>
+							<th>Actions</th>
+						{% endif %}
+					</tr>
+				</thead>
+				<tbody>
+					{% for item in utilisateurInstitutionSessionModules %}
+						<tr>
+							<td>{{ item.Utilisateur.nom }}
+								{{ item.Utilisateur.prenom }}</td>
+							<td>{{ item.SessionModule.Session.nom }}</td>
+							<td>{{ item.SessionModule.Module.nom }}</td>
+							{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+								<td>{{ item.Utilisateur.roles|join(', ') }}</td>
+								<td class="cellule-actions">
+									<a href="{{ path('modifier_utilisateur_institution_session_module', {'id': item.id}) }}" class="bouton-action modifier">
+										<i class="material-icons-round">edit</i>
+									</a>
+									<form method="POST" action="{{ path('app_Session_Module') }}" class="formulaire-ligne">
+										<input type="hidden" name="deleteUtilisateurId" value="{{ item.id }}">
+										<button type="submit" class="bouton-action supprimer">
+											<i class="material-icons-round">delete</i>
+										</button>
+									</form>
+								</td>
+							{% endif %}
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}5{% else %}3{% endif %}" class="aucune-donnee">
+								Aucune association trouvée
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</section>
+
+	<section class="section-gestion">
+
+		<h2 class="titre-section">
+			<i class="material-icons-round">school</i>
+			Création des Associations Institutions Sessions et modules
+		</h2>
+
+		<!-- Formulaire d'Ajout Nouvelle Association Session-Module -->
+		{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+			<div class="conteneur-formulaire-session-module">
+				{{ form_start(formism) }}
+
+				<div class="groupe-formulaire">
+					{{ form_label(formism.module, 'Module') }}
+					{{ form_widget(formism.module) }}
+					{{ form_errors(formism.module, {
+							'attr': {'class': 'erreurs-module'}
+						}) }}
+				</div>
+
+				<div class="groupe-formulaire">
+					{{ form_label(formism.session, 'Session') }}
+					{{ form_widget(formism.session) }}
+				</div>
+
+				<div class="groupe-formulaire">
+					{{ form_label(formism.institution, 'Institution') }}
+					{{ form_widget(formism.institution) }}
+				</div>
+				{{ form_widget(formism.enregistrersessionmodule, {'attr': {'label': 'EnregistrerSessionModule'}}) }}
+
+
+				{{ form_end(formism) }}
+
+
+
+
+				
+			</div>
+		{% endif %}
+
+		<!-- Grille Session-Module -->
+		<div class="section-grille"></section>
+
+		<section class="section-gestion">
+
+			<h2 class="titre-section">
+				<i class="material-icons-round">list_alt</i>
+				Liste des Associations existants Institutions Sessions et modules
+			</h2>
+
+			<div class="conteneur-grille">
+				{% for resultat in resultats %}
+
+					<div class="carte-grille">
+						<input type="checkbox" id="basculer-carte" class="basculer-carte">
+						<label for="basculer-carte" class="entete-carte">
+							<h3 class="titre-carte">
+								<i class="material-icons-round">link</i>
+								{{ resultat.moduleNom }}
+								/
+								{{ resultat.sessionNom }}
+								/
+								{{ resultat.institutionNom }}
+							</h3>
+							{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+								<div class="actions-carte">
+									<a href="{{ path('modifier_session_module', {'id': resultat.moduleId}) }}" class="bouton-action modifier">
+										<i class="material-icons-round">edit</i>
+									</a>
+									<form action="{{ path('app_Session_Module') }}" method="get" class="formulaire-ligne">
+										<input type="hidden" name="supprimer_ISM" value="{{ resultat.moduleId }}">
+										<button type="submit" class="bouton-action supprimer">
+											<i class="material-icons-round">delete</i>
+										</button>
+									</form>
+								</div>
+							{% endif %}
+							<span class="icone-agrandir">
+								<i class="material-icons-round">expand_more</i>
+							</span>
+						</label>
+
+						<div class="corps-carte">
+							<div class="bloc-info">
+								<h4 class="titre-info">
+									<i class="material-icons-round">account_balance</i>
+									Institution
+								</h4>
+								<p>
+									<strong>Nom:</strong>
+									{{ resultat.institutionNom }}</p>
+								<p>
+									<strong>Adresse:</strong>
+									{{ resultat.institutionAdresse }}</p>
+								<p>
+									<strong>Contact:</strong>
+									{{ resultat.institutionTelephone }}
+									|
+									{{ resultat.institutionCourriel }}</p>
+							</div>
+
+							<div class="bloc-info">
+								<h4 class="titre-info">
+									<i class="material-icons-round">event</i>
+									Session
+								</h4>
+								<p>
+									<strong>Période:</strong>
+									{{ resultat.sessionDateDebut|date('d/m/Y') }}
+									au
+									{{ resultat.sessionDateFin|date('d/m/Y') }}</p>
+								<p>
+									<strong>Type:</strong>
+									{{ resultat.sessionType }}</p>
+								<p>
+									<strong>Description:</strong>
+									{{ resultat.sessionDescription }}</p>
+							</div>
+
+							<div class="bloc-info">
+								<h4 class="titre-info">
+									<i class="material-icons-round">menu_book</i>
+									Module
+								</h4>
+								<p>
+									<strong>Nom:</strong>
+									{{ resultat.moduleNom }}</p>
+								<p>
+									<strong>Description:</strong>
+									{{ resultat.moduleDescription }}</p>
+								<p>
+									<strong>Période:</strong>
+									{{ resultat.moduleDateDebut|date('d/m/Y') }}
+									au
+									{{ resultat.moduleDateFin|date('d/m/Y') }}</p>
+							</div>
+
+							<div class="bloc-info">
+								<h4 class="titre-info">
+									<i class="material-icons-round">people</i>
+									Participants
+								</h4>
+								<div class="liste-participants">
+									{% for item in utilisateurInstitutionSessionModules %}
+										{% if resultat.moduleNom == item.SessionModule.Module.nom and resultat.sessionNom == item.SessionModule.Session.nom and resultat.institutionNom == item.SessionModule.Institution.nom %}
+											<div class="participant">
+												{{ item.Utilisateur.prenom }}
+												<strong>{{ item.Utilisateur.nom }}</strong>
+											</div>
+										{% endif %}
+									{% else %}
+										<p class="aucune-donnee">Aucun participant</p>
+									{% endfor %}
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				{% endfor %}
+			</section>
+
+			<section class="section-tableau">
+				<h2 class="titre-section">
+					<i class="material-icons-round">list_alt</i>
+					Liste des Institutions Sessions et modules existants
+				</h2>
+
+				<div
+					class="tableau-adaptatif">
+					<!-- Tableau des Institutions -->
+					<div class="conteneur-tableau">
+						<input type="checkbox" id="basculer-institutions" class="basculer-carte">
+						<label for="basculer-institutions" class="entete-tableau">
+							<h3 class="sous-titre-tableau">
+								<i class="material-icons-round">account_balance</i>
+								Institutions
+								<span class="icone-agrandir">
+									<i class="material-icons-round">expand_more</i>
+								</span>
+							</h3>
+						</label>
+
+						<div class="corps-tableau">
+							<table>
+								<thead>
+									<tr>
+										<th>Nom de l'Institution</th>
+										{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+											<th class="entete-actions">Actions</th>
+										{% endif %}
+									</tr>
+								</thead>
+								<tbody>
+									{% set donnees_institution = false %}
+									{% for institution in institutions %}
+										{% set donnees_institution = true %}
+										<tr>
+											<td>{{ institution.nom }}</td>
+											{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+												<td class="cellule-actions">
+													<a href="{{ path('institution_modifier', {'id': institution.id}) }}" class="bouton-action modifier" title="Modifier">
+														<i class="material-icons-round">edit</i>
+													</a>
+													<form method="POST" action="{{ path('app_Session_Module') }}" class="formulaire-ligne">
+														<input type="hidden" name="supprimer_Institution" value="{{ institution.id }}">
+														<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ institution.id) }}">
+														<button type="submit" class="bouton-action supprimer" title="Supprimer" onclick="return confirm(
+																																																																																																																																																							'Êtes-vous sûr de vouloir supprimer cette institution ?\n\n' +
+																																																																																																																																																							'⚠️ Attention ! Cette action est irréversible.\n\n' +
+																																																																																																																																																							'Toutes les formations associées seront également supprimées.\n' +
+																																																																																																																																																							'Les utilisateurs inscrits perdront leur accès.\n\n' +
+																																																																																																																																																							'Cliquez sur OK pour confirmer.'
+																																																																																																																																																						)">
+															<i class="material-icons-round">delete</i>
+														</button>
+													</form>
+												</td>
+											{% endif %}
+										</tr>
+									{% endfor %}
+
+									{% if not donnees_institution %}
+										<tr>
+											<td colspan="{{ is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') ? '2' : '1' }}" class="aucune-donnee">
+												Aucune institution trouvée
+											</td>
+										</tr>
+									{% endif %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<!-- Tableau des Sessions -->
+					<div class="conteneur-tableau">
+						<input type="checkbox" id="basculer-sessions" class="basculer-carte">
+						<label for="basculer-sessions" class="entete-tableau">
+							<h3 class="sous-titre-tableau">
+								<i class="material-icons-round">event</i>
+								Sessions
+								<span class="icone-agrandir">
+									<i class="material-icons-round">expand_more</i>
+								</span>
+							</h3>
+						</label>
+
+						<div class="corps-tableau">
+							<table>
+								<thead>
+									<tr>
+										<th>Nom de la Session</th>
+										{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+											<th class="entete-actions">Actions</th>
+										{% endif %}
+									</tr>
+								</thead>
+								<tbody>
+									{% set donnees_session = false %}
+									{% for session in sessions %}
+										{% set donnees_session = true %}
+										<tr>
+											<td>{{ session.nom }}</td>
+											{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+												<td class="cellule-actions">
+													<a href="{{ path('session_modifier', {'id': session.id}) }}" class="bouton-action modifier" title="Modifier">
+														<i class="material-icons-round">edit</i>
+													</a>
+													<form method="POST" action="{{ path('app_Session_Module') }}" class="formulaire-ligne">
+														<input type="hidden" name="supprimer_Session" value="{{ session.id }}">
+														<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ session.id) }}">
+														<button type="submit" class="bouton-action supprimer" title="Supprimer" onclick="return confirm(
+																																																																																																																																																)">
+															<i class="material-icons-round">delete</i>
+														</button>
+													</form>
+												</td>
+											{% endif %}
+										</tr>
+									{% endfor %}
+
+									{% if not donnees_session %}
+										<tr>
+											<td colspan="{{ is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') ? '2' : '1' }}" class="aucune-donnee">
+												Aucune session trouvée
+											</td>
+										</tr>
+									{% endif %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<!-- Tableau des Modules -->
+					<div class="conteneur-tableau">
+						<input type="checkbox" id="basculer-modules" class="basculer-carte">
+						<label for="basculer-modules" class="entete-tableau">
+							<h3 class="sous-titre-tableau">
+								<i class="material-icons-round">menu_book</i>
+								Modules
+								<span class="icone-agrandir">
+									<i class="material-icons-round">expand_more</i>
+								</span>
+							</h3>
+						</label>
+
+
+						<div class="corps-tableau">
+							<table>
+								<thead>
+									<tr>
+										<th>Nom du Module</th>
+										{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+											<th class="entete-actions">Actions</th>
+										{% endif %}
+									</tr>
+								</thead>
+								<tbody>
+									{% set hasModuleData = false %}
+									{% for module in modules %}
+										{% set hasModuleData = true %}
+										<tr>
+											<td>{{ module.nom }}</td>
+											{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+												<td class="cellule-actions">
+													<a href="{{ path('module_modifier', {'id': module.id}) }}" class="bouton-action modifier" title="Modifier">
+														<i class="material-icons-round">edit</i>
+													</a>
+													<form method="POST" action="{{ path('app_Session_Module') }}" class="formulaire-ligne">
+														<input type="hidden" name="supprimer_Module" value="{{ module.id }}">
+														<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ module.id) }}">
+														<button type="submit" class="bouton-action supprimer" title="Supprimer" onclick="return confirm(
+																																																																																																																																																							'Êtes-vous sûr de vouloir supprimer ce module ?\n\n' +
+																																																																																																																																																							'⚠️ Attention ! Cette action est irréversible.\n\n' +
+																																																																																																																																																							'Toutes les formations associées seront également supprimées.\n' +
+																																																																																																																																																							'Les utilisateurs inscrits perdront leur accès.\n\n' +
+																																																																																																																																																							'Cliquez sur OK pour confirmer.'
+																																																																																																																																																						)">
+															<i class="material-icons-round">delete</i>
+														</button>
+													</form>
+												</td>
+											{% endif %}
+										</tr>
+									{% endfor %}
+
+									{% if not hasModuleData %}
+										<tr>
+											<td colspan="{{ is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') ? '2' : '1' }}" class="aucune-donnee">
+												Aucun module trouvé
+											</td>
+										</tr>
+									{% endif %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</section>
+
+
+		{% endif %}
+	</div>
+
+
+	<!-- Contenu Principal -->
+	<main class="conteneur-contenu">
+
+		<!-- Mes Modules (Nouvelle section ajoutée) -->
+
+		<!-- Mes Modules - Version détaillée -->
+			{% if app.user %}
+				<section class="section-mes-modules-detailles"> <h2 class="titre-section">
+					<i class="material-icons-round">bookmarks</i>
+					Mes Formations
+				</h2>
+
+				<div class="conteneur-modules-detailles">
+					{% set hasModules = false %}
+					{% for item in utilisateurInstitutionSessionModules %}
+						{% if item.Utilisateur.id == app.user.id %}
+							{% set hasModules = true %}
+							<div class="carte-module-detaille">
+								<div class="entete-module">
+									<h3 class="titre-module">
+										<i class="material-icons-round">school</i>
+										{{ item.SessionModule.Module.nom }}
+									</h3>
+								</div>
+
+								<div
+									class="grille-module">
+									<!-- Colonne Module -->
+									<div class="section-info-module">
+										<h4 class="titre-section-info">
+											<i class="material-icons-round">menu_book</i>
+											Détails du Module
+										</h4>
+										<div class="contenu-info">
+											<p>
+												<strong>Description :</strong>
+												{{ item.SessionModule.Module.description }}</p>
+											<p>
+												<strong>Période:</strong>
+												{{ item.SessionModule.Module.dateDebut|date('d/m/Y') }}
+												au
+												{{ item.SessionModule.Module.dateFin|date('d/m/Y') }}</p>
+										</div>
+									</div>
+
+									<!-- Colonne Session -->
+									<div class="section-info-session">
+										<h4 class="titre-section-info">
+											<i class="material-icons-round">event</i>
+											Détails de la Session
+										</h4>
+										<div class="contenu-info">
+											<p>
+												<strong>Nom :</strong>
+												{{ item.SessionModule.Session.nom }}</p>
+											<p>
+												<strong>Période :</strong>
+												Du
+												{{ item.SessionModule.Session.dateDebut|date('d/m/Y') }}
+												au
+												{{ item.SessionModule.Session.dateFin|date('d/m/Y') }}</p>
+											<p>
+												<strong>Type :</strong>
+												{{ item.SessionModule.Session.type }}</p>
+											<p>
+												<strong>Description :</strong>
+												{{ item.SessionModule.Session.description }}</p>
+										</div>
+									</div>
+
+									<!-- Colonne Institution -->
+									<div class="section-info-institution">
+										<h4 class="titre-section-info">
+											<i class="material-icons-round">account_balance</i>
+											Centre de Formation
+										</h4>
+										<div class="contenu-info">
+											<p>
+												<strong>Nom :</strong>
+												{{ item.SessionModule.Institution.nom }}</p>
+											<p>
+												<strong>Adresse :</strong>
+												{{ item.SessionModule.Institution.adresse }}</p>
+											<p>
+												<strong>Téléphone :</strong>
+												{{ item.SessionModule.Institution.telephone }}</p>
+											<p>
+												<strong>Email :</strong>
+												{{ item.SessionModule.Institution.courriel }}</p>
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+						{% endif %}
+					{% endfor %}
+
+					{% if not hasModules %}
+						<div class="message-aucun-module">
+							<i class="material-icons-round">info_outline</i>
+							<p>Vous n'êtes actuellement inscrit à aucune formation.</p>
+						</div>
+					{% endif %}
+				</div>
+			</section>
+		{% endif %}
+
+
+		<section class="section-associations">
+			<h2 class="titre-associations">
+				<i class="material-icons-round">link</i>
+				Liste des Associations existantes Institutions Sessions et modules
+			</h2>
+
+			<div class="grille-associations">
+				{% for resultat in resultats %}
+					<div class="carte-association">
+						<input type="checkbox" id="basculer-association-{{ loop.index }}" class="basculer-association">
+						<label for="basculer-association-{{ loop.index }}" class="entete-association">
+							<h3 class="titre-association">
+								<i class="material-icons-round">link</i>
+								{{ resultat.moduleNom }}
+								/
+								{{ resultat.sessionNom }}
+								/
+								{{ resultat.institutionNom }}
+							</h3>
+							<span class="icone-deplier-association">
+								<i class="material-icons-round">expand_more</i>
+							</span>
+						</label>
+
+						<div class="contenu-association">
+							<div class="bloc-institution">
+								<h4 class="titre-bloc">
+									<i class="material-icons-round">account_balance</i>
+									Institution
+								</h4>
+								<p>
+									<strong>Nom:</strong>
+									{{ resultat.institutionNom }}</p>
+								<p>
+									<strong>Adresse:</strong>
+									{{ resultat.institutionAdresse }}</p>
+								<p>
+									<strong>Contact:</strong>
+									{{ resultat.institutionTelephone }}
+									|
+									{{ resultat.institutionCourriel }}</p>
+							</div>
+
+							<div class="bloc-session">
+								<h4 class="titre-bloc">
+									<i class="material-icons-round">event</i>
+									Session
+								</h4>
+								<p>
+									<strong>Période:</strong>
+									{{ resultat.sessionDateDebut|date('d/m/Y') }}
+									au
+									{{ resultat.sessionDateFin|date('d/m/Y') }}</p>
+								<p>
+									<strong>Type:</strong>
+									{{ resultat.sessionType }}</p>
+								<p>
+									<strong>Description:</strong>
+									{{ resultat.sessionDescription }}</p>
+							</div>
+
+							<div class="bloc-module">
+								<h4 class="titre-bloc">
+									<i class="material-icons-round">menu_book</i>
+									Module
+								</h4>
+								<p>
+									<strong>Nom:</strong>
+									{{ resultat.moduleNom }}</p>
+								<p>
+									<strong>Description:</strong>
+									{{ resultat.moduleDescription }}</p>
+								<p>
+									<strong>Période:</strong>
+									{{ resultat.moduleDateDebut|date('d/m/Y') }}
+									au
+									{{ resultat.moduleDateFin|date('d/m/Y') }}</p>
+							</div>
+
+							<div class="bloc-participants">
+
+								{% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_ENSEIGNANT') %}
+
+									<h4 class="titre-bloc">
+										<i class="material-icons-round">people</i>
+										Participants
+									</h4>
+									<div class="conteneur-participants">
+										{% for item in utilisateurInstitutionSessionModules %}
+											{% if resultat.moduleNom == item.SessionModule.Module.nom and resultat.sessionNom == item.SessionModule.Session.nom and resultat.institutionNom == item.SessionModule.Institution.nom %}
+												<div class="element-participant">
+													{{ item.Utilisateur.prenom }}
+													<strong>{{ item.Utilisateur.nom }}</strong>
+												</div>
+											{% endif %}
+										{% else %}
+											<p class="participants-vide">Aucun participant</p>
+										{% endfor %}
+									</div>
+
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</section>
+
+
+	</main>
+
+
+</body></html>

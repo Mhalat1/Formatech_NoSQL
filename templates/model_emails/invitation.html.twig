@@ -1,0 +1,10 @@
+{# templates/emails/invitation.html.twig #}
+<p>Bonjour,</p>
+
+<p>Vous avez été invité à rejoindre l'institution : {{ invitation.institution.nom }} sur notre plateforme.</p>
+
+<p>Pour accepter cette invitation, cliquez sur le lien suivant :</p>
+
+<p><a href="{{ absolute_url(path('app_invitation_accept', {'token': invitation.token})) }}">Accepter l'invitation</a></p>
+
+<p>Ce lien expirera le {{ invitation.expireLe|date('d/m/Y') }}.</p>

@@ -1,0 +1,35 @@
+parameters:
+    locale: 'fr'
+    stripe_cle_privee: '%env(STRIPE_CLE_PRIVEE)%'
+    app.mailAdresse: '%env(MAIL_ADRESSE)%'
+    stripe_cle_public: '%env(STRIPE_CLE_PUBLIC)%'
+    stripe_prix_id_basique: '%env(STRIPE_PRIX_ID_BASIQUE)%'
+    stripe_prix_id_premium: '%env(STRIPE_PRIX_ID_PREMIUM)%'
+    stripe_webhook_prive: '%env(STRIPE_WEBHOOK_PRIVE)%'
+
+
+services:
+
+    App\EventSubscriber\Abonnement:
+        tags:
+        - { name: kernel.event_subscriber }
+
+        
+    App\Entity\Utilisateur: ~
+
+
+    _defaults:
+        #Symfony analyse automatiquement les arguments nécessaires#
+        #pour les services et les injecte sans configuration manuelle#
+        autowire: true      
+        #Symfony inspecte les classes pour déterminer leur rôle et applique les tags appropriés.#
+        autoconfigure: true 
+
+    App\:
+        #Toutes les classes dans src/ deviennent des services disponibles, excepté entités qui sont #
+        #des objets de données pas des servies et kernel.php car c'est le coeur de l'app symfony #
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'

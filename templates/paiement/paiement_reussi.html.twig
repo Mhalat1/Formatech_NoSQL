@@ -1,0 +1,26 @@
+<html lang="fr">
+<head>
+    <link rel="stylesheet" href="{{ asset('css/page_payement_reussi.css') }}">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+<div class="confirmation">
+    <div class="confirmation-partie">
+        <div class="confirmation-icon">✓</div>
+        <h1>Paiement confirmé</h1>
+        <p class="confirmation-text">Merci pour votre achat. Votre abonnement est maintenant actif.</p>
+
+        <div class="recap">
+            <h2>Récapitulatif</h2>
+            <p> Type d'abonnement souscrit : {{ type_abonnement }}</p> 
+            <p> Prix de l'abonnement : {{ montantEuros }} euros / mois </p> 
+            </div>
+            
+        <a href="{{ path('app_accueil') }}" class="button">
+            Retour à l'accueil
+        </a>
+    </div>
+</div>
+</body>
+</html>

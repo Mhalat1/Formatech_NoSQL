@@ -1,0 +1,120 @@
+{% include 'haut_de_page/haut_de_page.html.twig' %}
+
+{% block feuilles_de_style %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/invitation.css') }}">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% endblock %}
+
+{% block corps %}
+<div class="conteneur-principal">
+    <!-- En-tête -->
+    <div class="en-tete">
+        <h1 class="titre-principal">
+            Gestion des Invitations
+        </h1>
+        <p class="sous-titre">Envoyez et gérez vos invitations d'accès à la plateforme</p>
+    </div>
+
+    <!-- Formulaire d'invitation -->
+    <div class="carte-formulaire">
+        {{ form_start(form) }}
+        
+        <!-- Champ Email -->
+        <div class="groupe-champ">
+            {{ form_label(form.email, 'Adresse email du destinataire', {
+                'label_attr': {'class': 'label-champ'}
+            }) }}
+            <div class="conteneur-input">
+                <div class="icone-input">
+                    <span class="material-icons-round">email</span>
+                </div>
+                {{ form_widget(form.email, {
+                    'attr': {
+                        'class': 'input-champ',
+                        'placeholder': 'exemple@email.com'
+                    }
+                }) }}
+            </div>
+            {{ form_errors(form.email) }}
+        </div>
+
+        <!-- Champ Institution -->
+        <div class="groupe-champ">
+            {{ form_label(form.institution, 'Institution', {
+                'label_attr': {'class': 'label-champ'}
+            }) }}
+            <div class="conteneur-input">
+                <div class="icone-input">
+                    <span class="material-icons-round">business</span>
+                </div>
+                {{ form_widget(form.institution, {
+                    'attr': {
+                        'class': 'input-champ',
+                    }
+                }) }}
+            </div>
+            <div class="message-info">
+                <span class="material-icons-round">info</span>
+                L'invitation sera associée à cette institution
+            </div>
+            {{ form_errors(form.institution) }}
+        </div>
+
+        <!-- Champ Date d'Expiration -->
+        <div class="groupe-champ">
+            {{ form_label(form.expireLe, 'Expire le : ', {
+                'label_attr': {'class': 'label-champ'}
+            }) }}
+            <div class="conteneur-input">
+                <div class="icone-input">
+                    <span class="material-icons-round">calendar_today</span>
+                </div>
+                {{ form_widget(form.expireLe, {
+                    'attr': {
+                        'class': 'input-champ',
+                    }
+                }) }}
+            </div>
+            {% if form.vars.value.expireLe %}
+                <p class="texte-secondaire">
+                    Expiration: {{ form.vars.value.expireLe|date('d/m/Y H:i') }}
+                </p>
+            {% endif %}
+            {{ form_errors(form.expireLe) }}
+        </div>
+
+        <!-- Bouton de Soumission -->
+        <div class="groupe-champ">
+            <button type="submit" class="bouton-principal">
+                <span class="material-icons-round">send</span>
+                Envoyer l'invitation
+            </button>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+</div>
+
+{% if app.flashes('success') %}
+    <div class="notification notification-success" x-data="{ afficher: true }" x-show="afficher" x-init="setTimeout(() => afficher = false, 5000)">
+        <span class="material-icons-round">check_circle</span>
+        {% for message in app.flashes('success') %}
+            {{ message }}
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% if app.flashes('error') %}
+    <div class="notification notification-error" x-data="{ afficher: true }" x-show="afficher" x-init="setTimeout(() => afficher = false, 5000)">
+        <span class="material-icons-round">error</span>
+        {% for message in app.flashes('error') %}
+            {{ message }}
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+{% endblock %}

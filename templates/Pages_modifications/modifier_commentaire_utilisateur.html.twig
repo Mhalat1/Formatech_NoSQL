@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier le commentaire | Formatech</title>
+    <link rel="stylesheet" href="{{ asset('css/modification.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+
+<body class="corps">
+    {% block body %}
+        {% include 'haut_de_page/haut_de_page.html.twig' %}
+        
+        <main class="conteneur espacement-vertical">
+            <div class="carte">
+                <div class="en-tete-carte">
+                    <h1 class="titre-2 mb-0">
+                        <i class="icone material-icons-round">comment</i>
+                        Modifier le commentaire général
+                    </h1>
+                </div>
+                
+                <div class="corps-carte">
+                    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                        <div class="grille">
+                            <div class="colonne-12">
+                                <div class="groupe-formulaire">
+                                    {{ form_label(form.commentaire, null, {
+                                        'label_attr': {'class': 'libelle-formulaire'}
+                                    }) }}
+                                    {{ form_widget(form.commentaire, {
+                                        'attr': {
+                                            'class': 'controle-formulaire',
+                                            'rows': 5,
+                                            'style': 'min-height: 150px;'
+                                        }
+                                    }) }}
+                                    <div class="message-invalide">
+                                        {{ form_errors(form.commentaire) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="espacement-haut">
+                            <a href="{{ path('app_Session_Module') }}" class="bouton bouton-secondaire">
+                                <i class="icone material-icons-round">arrow_back</i>
+                                Annuler
+                            </a>
+                            <button type="submit" class="bouton bouton-primaire">
+                                <i class="icone material-icons-round">save</i>
+                                Sauvegarder
+                            </button>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </main>
+    {% endblock %}
+</body>
+</html>

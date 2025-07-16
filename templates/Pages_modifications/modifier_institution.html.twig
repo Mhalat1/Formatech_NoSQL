@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier l'institution {{ institution.nom }} | Formatech</title>
+    <link rel="stylesheet" href="{{ asset('css/modification.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+</head>
+
+
+<body class="corps">
+    {% block body %}
+        {% include 'haut_de_page/haut_de_page.html.twig' %}
+        
+        <main class="conteneur espacement-vertical">
+            <div class="carte">
+                <div class="en-tete-carte">
+                    <h1 class="titre-2 mb-0">
+                        <i class="icone material-icons-round">school</i>
+                        Modifier l'institution : {{ institution.nom }}
+                    </h1>
+                </div>
+                
+                <div class="corps-carte">
+                    {{ form_start(form_institution, {'attr': {'novalidate': 'novalidate'}}) }}
+                        <div class="grille">
+                            <div class="colonne-md-6">
+                                <div class="groupe-formulaire">
+                                    {{ form_label(form_institution.nom, null, {
+                                        'label_attr': {'class': 'libelle-formulaire'}
+                                    }) }}
+                                    {{ form_widget(form_institution.nom, {
+                                        'attr': {'class': 'controle-formulaire'}
+                                    }) }}
+                                    <div class="message-invalide">
+                                        {{ form_errors(form_institution.nom) }}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="colonne-md-6">
+                                <div class="groupe-formulaire">
+                                    {{ form_label(form_institution.courriel, null, {
+                                        'label_attr': {'class': 'libelle-formulaire'}
+                                    }) }}
+                                    {{ form_widget(form_institution.courriel, {
+                                        'attr': {'class': 'controle-formulaire'}
+                                    }) }}
+                                    <div class="message-invalide">
+                                        {{ form_errors(form_institution.courriel) }}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="colonne-12">
+                                <div class="groupe-formulaire">
+                                    {{ form_label(form_institution.adresse, null, {
+                                        'label_attr': {'class': 'libelle-formulaire'}
+                                    }) }}
+                                    {{ form_widget(form_institution.adresse, {
+                                        'attr': {
+                                            'class': 'controle-formulaire',
+                                            'rows': 3
+                                        }
+                                    }) }}
+                                    <div class="message-invalide">
+                                        {{ form_errors(form_institution.adresse) }}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="colonne-md-6">
+                                <div class="groupe-formulaire">
+                                    {{ form_label(form_institution.telephone, null, {
+                                        'label_attr': {'class': 'libelle-formulaire'}
+                                    }) }}
+                                    {{ form_widget(form_institution.telephone, {
+                                        'attr': {'class': 'controle-formulaire'}
+                                    }) }}
+                                    <div class="message-invalide">
+                                        {{ form_errors(form_institution.telephone) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-justifie-fin espacement-haut">
+
+                            <button type="submit" class="bouton bouton-primaire">
+                                <i class="icone material-icons-round">save</i>
+                                Mettre à jour
+                            </button>
+                        </div>
+                    {{ form_end(form_institution) }}
+                </div>
+            </div>
+        </main>
+    {% endblock %}
+</body>
+
+
+
+</html>

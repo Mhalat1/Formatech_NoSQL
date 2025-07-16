@@ -1,0 +1,13 @@
+framework:
+    cache:
+        # Configuration de base
+        prefix_seed: formatech_symfony  # Remplacez par un identifiant unique de votre application
+
+        pools:
+            doctrine.system_cache_pool:
+                adapter: cache.adapter.filesystem  # Utilise filesystem par défaut
+                default_lifetime: 3600  # 1 heure
+                
+            doctrine.result_cache_pool:
+                adapter: cache.adapter.filesystem
+                default_lifetime: 0  # Pas d'expiration

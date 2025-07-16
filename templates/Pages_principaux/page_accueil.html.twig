@@ -1,0 +1,421 @@
+<head>
+	<meta charset="UTF-8">
+	<title>FORMATECH - Plateforme éducative</title>
+	<link rel="stylesheet" href="{{ asset('css/accueil.css') }}">
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<link rel="stylesheet" href="{{ asset('css/accueil.css') }}">
+
+</head>
+
+{% block header %}
+	<section class="section">
+		<div class="superposition"></div>
+		<div class="conteneur">
+			<header class="entete  ">
+				<h1 class="titre">FORMATECH</h1>
+				<p class="sous-titre">La plateforme intelligente pour la gestion des institutions éducatives</p>
+				<div class="appel-action">
+					{% if app.user %}
+						<a href="{{ path('institution_index_ajouter')}}" class="bouton bouton-principal bouton-grand">Vous êtes déjà connecté</a>
+					{% else %}
+						<div class="conteneur-appel-action">
+							<a href="{{ path('app_connexion')}}" class="bouton bouton-principal bouton-grand">Connexion</a>
+							<div class="conteneur-inscription">
+								<a href="{{ path('app_inscription')}}" class="bouton bouton-contour-clair bouton-grand bouton-inscription">
+									Inscription
+								</a>
+								<span class="insigne-offre">3 mois offerts</span>
+							</div>
+						</div>
+					{% endif %}
+				</div>
+			</header>
+		</div>
+	</section>
+{% endblock %}
+
+{% block body %}
+	{% if app.user and dateFin is not null %}
+		<div class="notification-essai" onclick="this.style.display = 'none'">
+			{% if dateFin > date() %}
+				<div class="alerte alerte-reussite fondu afficher" role="alerte">
+					<div class="conteneur-alerte">
+						<i class="material-icons-round">card_giftcard</i>
+						<div class="statut-essai">
+							{# Calcul du nombre de jours restants #}
+							{% set maintenant = date() %}
+							{% set fin_le = dateFin %}
+
+							{# Affichage de la période d'essai #}
+							<strong>Période d'essai active</strong>
+							<p>Valable jusqu'au {{ fin_le|date('d/m/Y') }}</p>
+						</div>
+					</div>
+				</div>
+			{% else %}
+				<div class="alerte alerte-danger fondu afficher" role="alerte">
+					<div class="conteneur-alerte">
+						<i class="material-icons-round">warning</i>
+						<div>
+							<strong>Période d'essai terminée</strong>
+							<p>Votre accès sera limité sans abonnement</p>
+							<a href="{{ path('liste_abonnements') }}" class="bouton bouton-petit bouton-contour-clair">
+								<i class="material-icons-round">credit_card</i>
+								Souscrire un abonnement
+							</a>
+						</div>
+					</div>
+				</div>
+			{% endif %}
+		</div>
+
+	{% endif %}
+
+	<div class="conteneur-principal">
+		<section class="section-fonctionnalites">
+			<div class="conteneur">
+				<h2 class="titre-section">Nos fonctionnalités principales</h2>
+				<div class="grille-fonctionnalites">
+					<div class="carte-fonctionnalite">
+						<div class="icone-fonctionnalite icone-primary">
+							<i class="material-icons-round">people</i>
+						</div>
+						<h3>Gestion des institutions</h3>
+						<p>Administrez facilement plusieurs institutions avec des outils complets de gestion.</p>
+					</div>
+					<div class="carte-fonctionnalite">
+						<div class="icone-fonctionnalite icone-success">
+							<i class="material-icons-round">calendar_today</i>
+						</div>
+						<h3>Calendrier des sessions</h3>
+						<p>Planifiez et gérez les sessions de formation avec un calendrier interactif.</p>
+					</div>
+					<div class="carte-fonctionnalite">
+						<div class="icone-fonctionnalite icone-info">
+							<i class="material-icons-round">menu_book</i>
+						</div>
+						<h3>Modules pédagogiques</h3>
+						<p>Créez et organisez vos modules d'apprentissage avec des outils avancés.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="section-institutions section-alternee">
+			<div class="conteneur">
+				<div class="entete-section">
+					<h2 class="titre-section">Nos institutions partenaires</h2>
+				</div>
+
+				<div class="grille-institutions">
+					{% for institution in institutions %}
+						<div class="element-institution">
+							<div class="carte-institution">
+								{% set institution_images = [
+                                'img/institution/inst1.jpg',
+                                'img/institution/inst2.jpg', 
+                                'img/institution/inst3.jpg',
+                                'img/institution/inst4.jpg',
+                                'img/institution/inst5.jpg', 
+                                'img/institution/inst6.jpg',
+                                'img/institution/inst7.jpg',
+                                'img/institution/inst8.jpg', 
+                                'img/institution/inst9.jpg',
+                                'img/institution/inst10.jpg',
+                                'img/institution/inst11.jpg', 
+                                'img/institution/inst12.jpg'
+                            ] %}
+								<div class="image-institution">
+									<img src="{{ asset(institution_images[random(institution_images|length - 1)]) }}" alt="{{ institution.nom }}">
+								</div>
+								<div class="corps-institution">
+									<h3 class="nom-institution">{{ institution.nom }}</h3>
+									<p class="localisation-institution">{{ institution.localisation ?? 'Localisation non spécifiée' }}</p>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+
+		<section class="section-sessions">
+			<div class="conteneur">
+				<h2 class="titre-section">Prochaines sessions</h2>
+
+				<div class="grille-sessions">
+					{% for session in sessions %}
+						<div class="carte-session">
+							<div class="badge-session">{{ session.dateDebut|date('d M') }}
+								-
+								{{ session.dateFin|date('d M') }}</div>
+							{% set session_images = [
+                                'img/institution/inst1.jpg',
+                                'img/institution/inst2.jpg', 
+                                'img/institution/inst3.jpg',
+                                'img/institution/inst4.jpg',
+                                'img/institution/inst5.jpg', 
+                                'img/institution/inst6.jpg',
+                                'img/institution/inst7.jpg',
+                                'img/institution/inst8.jpg', 
+                                'img/institution/inst9.jpg',
+                                'img/institution/inst10.jpg',
+                                'img/institution/inst11.jpg', 
+                                'img/institution/inst12.jpg'
+                            ] %}
+							<div class="image-session">
+								<img src="{{ asset(session_images[random(session_images|length - 1)]) }}" alt="{{ session.nom }}">
+							</div>
+							<div class="corps-session">
+								<h3 class="titre-session">{{ session.nom }}</h3>
+								<p class="institution-session">{{ session.institution.nom ?? 'Institution non spécifiée' }}</p>
+								<div class="meta-session">
+									<i class="material-icons-round">location_on</i>
+									<span>{{ session.lieu ?? 'En ligne' }}</span>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+
+		<section class="section-modules section-alternee">
+			<div class="conteneur">
+				<h2 class="titre-section">Modules disponibles</h2>
+
+				<div class="grille-modules">
+					{% for module in modules %}
+						<div class="carte-module">
+							<div class="icone-module">
+								<i class="material-icons-round">book</i>
+							</div>
+							<h3 class="titre-module">{{ module.nom }}</h3>
+							<p class="description-module">{{ module.description|default('Description non disponible')|slice(0, 80) }}...</p>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+
+		<section class="section-abonnement section-primary">
+			<div class="conteneur">
+				<h2 class="titre-section">Prêt à gérer votre institution ?</h2>
+
+				<div class="carte-offre">
+					{% if is_granted('ROLE_ADMIN') %}
+						<a href="{{ path('liste_abonnements') }}" class="bouton bouton-premium">
+							Choisissez une Offre
+						</a>
+					{% endif %}
+				</div>
+
+				<div class="bas-page">
+					<div class="carte-tarif">
+						<div class="entete-tarif">
+							<h3>Offre Basic</h3>
+							<div class="prix">9€<span>/mois</span></div>
+						</div>
+						<ul class="fonctionnalites-tarif">
+							<li>Gestion simultané de plusieurs institutions</li>
+							<li>Nombre illimité d'utilisateurs</li>
+							<li>Support technique prioritaire</li>
+						</ul>
+
+						<h2>Profitez d'un essaie gratuit de 3 mois pour toute nouvelle inscription</h2>
+					</div>
+
+					<div class="carte-tarif">
+						<div class="entete-tarif">
+							<h3>Offre Premium</h3>
+							<div class="prix">19€<span>/mois</span></div>
+						</div>
+						<ul class="fonctionnalites-tarif">
+							<li>Gestion simultané de plusieurs institutions</li>
+							<li>Nombre illimité d'utilisateurs</li>
+							<li>Support technique prioritaire</li>
+						</ul>
+					</div>
+
+					<!-- Formulaire moderne et user-friendly -->
+					<div class="conteneur-formulaire">
+						<h2><i class="material-icons-round">chat</i> Contactez-nous pour tout renseignement</h2>
+						
+						{{ form_start(form, {
+							'attr': {
+								'class': 'formulaire-contact',
+								'onsubmit': 'return confirm("Êtes-vous sûr de vouloir envoyer ce message ?")'
+							}
+						}) }}
+
+						<!-- Informations personnelles -->
+						<div class="section-formulaire">
+							<div class="rangee-formulaire">
+								<div class="groupe-formulaire {{ form_errors(form.Prenom) ? 'a-erreur' : '' }}">
+									{{ form_widget(form.Prenom, {
+										'attr': {
+											'class': 'controle-formulaire',
+											'placeholder': ' ',
+											'autocomplete': 'given-name'
+										}
+									}) }}
+									{{ form_label(form.Prenom, 'Prénom *') }}
+									{% if form_errors(form.Prenom) %}
+										<div class="erreur-formulaire">{{ form_errors(form.Prenom) }}</div>
+									{% endif %}
+								</div>
+
+								<div class="groupe-formulaire {{ form_errors(form.Nom) ? 'a-erreur' : '' }}">
+									{{ form_widget(form.Nom, {
+										'attr': {
+											'class': 'controle-formulaire',
+											'placeholder': ' ',
+											'autocomplete': 'family-name'
+										}
+									}) }}
+									{{ form_label(form.Nom, 'Nom de famille *') }}
+									{% if form_errors(form.Nom) %}
+										<div class="erreur-formulaire">{{ form_errors(form.Nom) }}</div>
+									{% endif %}
+								</div>
+							</div>
+
+							<!-- Email (champ complet) -->
+							<div class="groupe-formulaire {{ form_errors(form.Email) ? 'a-erreur' : '' }}">
+								{{ form_widget(form.Email, {
+									'attr': {
+										'class': 'controle-formulaire',
+										'placeholder': ' ',
+										'autocomplete': 'email'
+									}
+								}) }}
+								<label>
+									<i class="material-icons-round">email</i> Adresse email *
+								</label>
+								{% if form_errors(form.Email) %}
+									<div class="erreur-formulaire">{{ form_errors(form.Email) }}</div>
+								{% endif %}
+							</div>
+						</div>
+
+						<!-- Informations de formation -->
+						<div class="section-formulaire">
+							<div class="rangee-formulaire">
+								<div class="groupe-formulaire {{ form_errors(form.NomInstitution) ? 'a-erreur' : '' }}">
+									{{ form_widget(form.NomInstitution, {
+										'attr': {
+											'class': 'controle-formulaire',
+											'placeholder': ' '
+										}
+									}) }}
+									<label>
+										<i class="material-icons-round">business</i> Institution
+									</label>
+									{% if form_errors(form.NomInstitution) %}
+										<div class="erreur-formulaire">{{ form_errors(form.NomInstitution) }}</div>
+									{% endif %}
+								</div>
+
+								<div class="groupe-formulaire {{ form_errors(form.NomSession) ? 'a-erreur' : '' }}">
+									{{ form_widget(form.NomSession, {
+										'attr': {
+											'class': 'controle-formulaire',
+											'placeholder': ' '
+										}
+									}) }}
+									<label>
+										<i class="material-icons-round">layers</i> Session de formation
+									</label>
+									{% if form_errors(form.NomSession) %}
+										<div class="erreur-formulaire">{{ form_errors(form.NomSession) }}</div>
+									{% endif %}
+								</div>
+							</div>
+
+							<div class="rangee-formulaire">
+								<div class="groupe-formulaire {{ form_errors(form.NomModule) ? 'a-erreur' : '' }}">
+									{{ form_widget(form.NomModule, {
+										'attr': {
+											'class': 'controle-formulaire',
+											'placeholder': ' '
+										}
+									}) }}
+									<label>
+										<i class="material-icons-round">menu_book</i> Module spécifique
+									</label>
+									{% if form_errors(form.NomModule) %}
+										<div class="erreur-formulaire">{{ form_errors(form.NomModule) }}</div>
+									{% endif %}
+								</div>
+
+								<div class="groupe-formulaire {{ form_errors(form.Dates) ? 'a-erreur' : '' }}">
+									{{ form_widget(form.Dates, {
+										'attr': {
+											'class': 'controle-formulaire',
+											'placeholder': ' '
+										}
+									}) }}
+									<label>
+										<i class="material-icons-round">event</i> Dates souhaitées
+									</label>
+									{% if form_errors(form.Dates) %}
+										<div class="erreur-formulaire">{{ form_errors(form.Dates) }}</div>
+									{% endif %}
+								</div>
+							</div>
+
+							<!-- Offre (champ complet) -->
+							<div class="groupe-formulaire {{ form_errors(form.Offre) ? 'a-erreur' : '' }}">
+								{{ form_widget(form.Offre, {
+									'attr': {
+										'class': 'controle-formulaire',
+										'placeholder': ' '
+									}
+								}) }}
+								<label>
+									<i class="material-icons-round">grade</i> Type d'offre souhaitée *
+								</label>
+								{% if form_errors(form.Offre) %}
+									<div class="erreur-formulaire">{{ form_errors(form.Offre) }}</div>
+								{% endif %}
+							</div>
+						</div>
+
+						<!-- Message -->
+						<div class="groupe-formulaire {{ form_errors(form.Message) ? 'a-erreur' : '' }}">
+							{{ form_widget(form.Message, {
+								'attr': {
+									'class': 'controle-formulaire',
+									'placeholder': ' ',
+									'rows': 5
+								}
+							}) }}
+							<label>
+								<i class="material-icons-round">message</i> Votre message
+							</label>
+							{% if form_errors(form.Message) %}
+								<div class="erreur-formulaire">{{ form_errors(form.Message) }}</div>
+							{% endif %}
+						</div>
+
+						<!-- Actions -->
+						<div class="actions-formulaire">
+							<button type="submit" name="action" value="email" class="bouton bouton-principal">
+								<i class="material-icons-round">send</i>
+								<span>Envoyer le message</span>
+							</button>
+						</div>
+
+						<p><i class="material-icons-round">info</i> * Champs obligatoires</p>
+
+						{{ form_end(form) }}
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+{% endblock %}

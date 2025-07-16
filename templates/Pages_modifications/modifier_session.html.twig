@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier {{ session.nom }} | Formatech</title>
+    <link rel="stylesheet" href="{{ asset('css/modification.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+
+<body class="corps">
+    {% block body %}
+        {% include 'haut_de_page/haut_de_page.html.twig' %}
+        
+        <main class="conteneur espacement-vertical">
+            <div class="carte">
+                <div class="en-tete-carte">
+                    <h1 class="titre-2 mb-0">
+                        <i class="icone material-icons-round">event</i>
+                        Modifier la session : {{ session.nom }}
+                    </h1>
+                </div>
+                
+                <div class="corps-carte">
+                    {{ form_start(form_session_modifier, {'attr': {'novalidate': 'novalidate'}}) }}
+                        <div class="grille">
+                            <div class="colonne-md-6">
+                                <div class="groupe-formulaire">
+                                    {{ form_label(form_session_modifier.nom, null, {
+                                        'label_attr': {'class': 'libelle-formulaire'}
+                                    }) }}
+                                    {{ form_widget(form_session_modifier.nom, {
+                                        'attr': {'class': 'controle-formulaire'}
+                                    }) }}
+                                    <div class="message-invalide">
+                                        {{ form_errors(form_session_modifier.nom) }}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="colonne-md-6">
+                                <div class="groupe-formulaire">
+                                    {{ form_label(form_session_modifier.type, null, {
+                                        'label_attr': {'class': 'libelle-formulaire'}
+                                    }) }}
+                                    {{ form_widget(form_session_modifier.type, {
+                                        'attr': {'class': 'controle-formulaire'}
+                                    }) }}
+                                    <div class="message-invalide">
+                                        {{ form_errors(form_session_modifier.type) }}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="colonne-md-6">
+                                <div class="groupe-formulaire">
+                                    {{ form_label(form_session_modifier.date_debut, null, {
+                                        'label_attr': {'class': 'libelle-formulaire'}
+                                    }) }}
+                                    {{ form_widget(form_session_modifier.date_debut, {
+                                        'attr': {'class': 'controle-formulaire'}
+                                    }) }}
+                                    <div class="message-invalide">
+                                        {{ form_errors(form_session_modifier.date_debut) }}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="colonne-md-6">
+                                <div class="groupe-formulaire">
+                                    {{ form_label(form_session_modifier.date_fin, null, {
+                                        'label_attr': {'class': 'libelle-formulaire'}
+                                    }) }}
+                                    {{ form_widget(form_session_modifier.date_fin, {
+                                        'attr': {'class': 'controle-formulaire'}
+                                    }) }}
+                                    <div class="message-invalide">
+                                        {{ form_errors(form_session_modifier.date_fin) }}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="colonne-12">
+                                <div class="groupe-formulaire">
+                                    {{ form_label(form_session_modifier.description, null, {
+                                        'label_attr': {'class': 'libelle-formulaire'}
+                                    }) }}
+                                    {{ form_widget(form_session_modifier.description, {
+                                        'attr': {
+                                            'class': 'controle-formulaire',
+                                            'rows': 3
+                                        }
+                                    }) }}
+                                    <div class="message-invalide">
+                                        {{ form_errors(form_session_modifier.description) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-justifie-fin espacement-haut">
+                            <a href="{{ path('app_Session_Module') }}" class="bouton bouton-secondaire">
+                                <i class="icone material-icons-round">arrow_back</i>
+                                Annuler
+                            </a>
+                            <button type="submit" class="bouton bouton-primaire">
+                                <i class="icone material-icons-round">save</i>
+                                Mettre à jour
+                            </button>
+                        </div>
+                    {{ form_end(form_session_modifier) }}
+                </div>
+            </div>
+        </main>
+    {% endblock %}
+</body>
+
+
+</html>

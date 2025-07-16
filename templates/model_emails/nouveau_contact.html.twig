@@ -1,0 +1,58 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Nouveau contact client</title>
+    <style>
+        /* ... (votre CSS existant) ... */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Nouvelle demande de contact</h2>
+            <p>Reçue le {{ "now"|date('d/m/Y à H:i') }}</p>
+        </div>
+        
+        <div class="content">
+            <div class="detail">
+                <span class="label">Client:</span> {{ contact.Prenom }} {{ contact.Nom }}
+            </div>
+            <div class="detail">
+                <span class="label">Email:</span> <a href="mailto:{{ contact.Email }}">{{ contact.Email }}</a>
+            </div>
+            <div class="detail">
+                <span class="label">Institution:</span> {{ contact.NomInstitution }}
+            </div>
+            <div class="detail">
+                <span class="label">Session:</span> {{ contact.NomSession }}
+            </div>
+            <div class="detail">
+                <span class="label">Module:</span> {{ contact.NomModule }}
+            </div>
+            <div class="detail">
+                <span class="label">Dates:</span> 
+                {% if contact.Dates is not empty %}
+                    {{ contact.Dates|date('d/m/Y') }}
+                {% else %}
+                    Non spécifié
+                {% endif %}
+            </div>
+            <div class="detail">
+                <span class="label">Offre choisie:</span> {{ contact.Offre|capitalize }}
+            </div>
+            {% if contact.Message is not empty %}
+            <div class="detail">
+                <span class="label">Message:</span>
+                <div style="margin-top: 10px; padding: 10px; background-color: #f8f9fa; border-radius: 4px;">
+                    {{ contact.Message|nl2br }}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="footer">
+            <p>Cet email a été envoyé automatiquement depuis le formulaire de contact.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,74 @@
+doctrine:
+    dbal:
+        connections:
+            default:
+                url: '%env(resolve:DATABASE_URL)%'
+                driver: 'pdo_mysql'
+                server_version: '9.1.0'
+                charset: utf8mb4
+                default_table_options:
+                    charset: utf8mb4
+                    collate: utf8mb4_unicode_ci
+                    engine: InnoDB
+                    row_format: DYNAMIC
+                options:
+                    # Désactive le mode strict pour plus de compatibilité
+                    1002: "SET sql_mode=(SELECT REPLACE(@@sql_mode,'STRICT_TRANS_TABLES',''))"
+                    # Force l'encodage côté client
+                    1001: "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci"
+                
+        # Configuration pour les types Doctrine
+        types:
+            json: Doctrine\DBAL\Types\JsonType
+            enum: Doctrine\DBAL\Types\StringType
+
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        enable_lazy_ghost_objects: true
+        report_fields_where_declared: true
+        validate_xml_mapping: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        auto_mapping: true
+        
+        mappings:
+            App:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Entity'
+                prefix: 'App\Entity'
+                alias: App
+
+when@test:
+    doctrine:
+        dbal:
+            dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+            # Optionnel : utiliser SQLite en mémoire pour les tests
+            # url: 'sqlite:///:memory:'
+
+when@prod:
+    doctrine:
+        orm:
+
+            auto_generate_proxy_classes: false
+            proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
+            query_cache_driver:
+                type: pool
+                pool: doctrine.system_cache_pool
+            result_cache_driver:
+                type: pool
+                pool: doctrine.result_cache_pool
+            second_level_cache:
+                enabled: true
+                region_cache_driver:
+                    type: pool
+                    pool: doctrine.second_level_cache_pool
+
+    framework:
+        cache:
+            pools:
+                doctrine.result_cache_pool:
+                    adapter: cache.app
+                doctrine.system_cache_pool:
+                    adapter: cache.system
+                doctrine.second_level_cache_pool:
+                    adapter: cache.system

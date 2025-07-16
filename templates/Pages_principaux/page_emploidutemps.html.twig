@@ -1,0 +1,158 @@
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+ <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="{{ asset('css/calendrier.css') }}">
+
+{% include 'haut_de_page/haut_de_page.html.twig' %}
+
+<div id="calendar"></div>
+<div class="conteneur-grille">
+	{% for item in data %}
+		<div>
+			<button class="btn-ouvrir-modale" data-target="modale-{{ item.jourHoraire.id }}">
+				Détails du JourHoraire #{{ item.jourHoraire.id }} : 
+				{{ item.jourHoraire.jour ?: 'Non renseigné' }}
+			</button>
+
+			<div class="modale" id="modale-{{ item.jourHoraire.id }}" aria-hidden="true">
+				<div class="contenu-modale" role="dialog" aria-modal="true" aria-labelledby="titre-modale-{{ item.jourHoraire.id }}">
+					<button class="btn-fermer-modale" aria-label="Fermer la fenêtre">×</button>
+
+					{% if item.utilisateurInstitutionSessionModule %}
+
+						{% if item.institution %}
+							<h2>Institution</h2>
+							<ul>
+								<li>Nom:
+									{{ item.institution.nom ?: 'Non renseigné' }}</li>
+								<li>Adresse:
+									{{ item.institution.adresse ?: 'Non renseignée' }}</li>
+								<li>Téléphone:
+									{{ item.institution.telephone ?: 'Non renseigné' }}</li>
+								<li>Courriel:
+									{{ item.institution.courriel ?: 'Non renseigné' }}</li>
+							</ul>
+						{% endif %}
+
+						{% if item.session %}
+							<h2>Session</h2>
+							<ul>
+								<li>Nom:
+									{{ item.session.nom ?: 'Non renseigné' }}</li>
+								<li>Type:
+									{{ item.session.type ?: 'Non renseigné' }}</li>
+								<li>Date début:
+									{{ item.session.dateDebut ? item.session.dateDebut|date('Y-m-d') : 'Non renseignée' }}</li>
+								<li>Date fin:
+									{{ item.session.dateFin ? item.session.dateFin|date('Y-m-d') : 'Non renseignée' }}</li>
+								<li>Description:
+									{{ item.session.description ?: 'Aucune' }}</li>
+							</ul>
+						{% endif %}
+
+						{% if item.module %}
+							<h2>Module</h2>
+							<ul>
+								<li>Nom:
+									{{ item.module.nom ?: 'Non renseigné' }}</li>
+								<li>Description:
+									{{ item.module.description ?: 'Aucune' }}</li>
+								<li>Commentaire:
+									{{ item.module.commentaire ?: 'Aucun' }}</li>
+								<li>Date début:
+									{{ item.module.dateDebut ? item.module.dateDebut|date('Y-m-d') : 'Non renseignée' }}</li>
+								<li>Date fin:
+									{{ item.module.dateFin ? item.module.dateFin|date('Y-m-d') : 'Non renseignée' }}</li>
+							</ul>
+						{% endif %}
+
+					{% else %}
+						<p>Aucun UtilisateurInstitutionSessionModule lié.</p>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+</div>
+
+ <script>
+
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const calendarEl = document.getElementById('calendar');
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'timeGridWeek', // Vue par semaine par défaut
+        locale: 'fr',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        buttonText: {
+            today: 'Aujourd\'hui',
+            month: 'Mois',
+            week: 'Semaine',
+            day: 'Jour'
+        },
+        events: [
+            {% for item in data %}
+                {% if item.jourHoraire.datePrecise %}
+                    {
+                        id: '{{ item.jourHoraire.id }}',
+                        title: '{{ item.session.nom }}',
+                        start: '{{ item.jourHoraire.datePrecise|date("Y-m-d") }}T{{ item.jourHoraire.heureDebut ? item.jourHoraire.heureDebut|date("H:i:s") : "00:00:00" }}',
+                        end: '{{ item.jourHoraire.datePrecise|date("Y-m-d") }}T{{ item.jourHoraire.heureFin ? item.jourHoraire.heureFin|date("H:i:s") : "23:59:59" }}',
+                        color: '#3788d8' // Couleur différente pour les dates précises
+                    },
+                {% elseif item.jourHoraire.jour %}
+                    {
+                        id: '{{ item.jourHoraire.id }}',
+                        title: '{{ item.session.nom }}',
+                        daysOfWeek: [ 
+                            {% if item.jourHoraire.jour == 'Lundi' %}1
+                            {% elseif item.jourHoraire.jour == 'Mardi' %}2
+                            {% elseif item.jourHoraire.jour == 'Mercredi' %}3
+                            {% elseif item.jourHoraire.jour == 'Jeudi' %}4
+                            {% elseif item.jourHoraire.jour == 'Vendredi' %}5
+                            {% elseif item.jourHoraire.jour == 'Samedi' %}6
+                            {% elseif item.jourHoraire.jour == 'Dimanche' %}0{% endif %} 
+                        ],
+                        startTime: '{{ item.jourHoraire.heureDebut ? item.jourHoraire.heureDebut|date("H:i:s") : "08:00:00" }}',
+                        endTime: '{{ item.jourHoraire.heureFin ? item.jourHoraire.heureFin|date("H:i:s") : "17:00:00" }}',
+                        startRecur: '{{ "now"|date("Y-m-d") }}',
+                        endRecur: '{{ "now +6 months"|date("Y-m-d") }}',
+                        color: '#ff9f89' // Couleur différente pour les récurrents
+                    },
+                {% endif %}
+            {% endfor %}
+        ],
+        eventClick: function(info) {
+            const modaleId = 'modale-' + info.event.id;
+            const modale = document.getElementById(modaleId);
+            if (modale) {
+                modale.classList.add('affiche');
+                modale.setAttribute('aria-hidden', 'false');
+            }
+        }
+    });
+    calendar.render();
+    
+
+    // Gestion des boutons fermer modale
+    document.querySelectorAll('.btn-fermer-modale').forEach(button => {
+        button.addEventListener('click', function() {
+            const modale = this.closest('.modale');
+            if (modale) {
+                modale.classList.remove('affiche');
+                modale.setAttribute('aria-hidden', 'true');
+            }
+        });
+    });
+});
+</script>
